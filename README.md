@@ -1,2 +1,1 @@
-# puzzles
 Common Puzzle Algorithms
