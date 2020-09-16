@@ -39,6 +39,25 @@ use Data::Dumper;
 	7,7,7, 8,8,8, 9,9,9
 );
 
+@boxSegments = (
+
+	[0,1,2], # Row1
+	[3,4,5], # Row2
+	[6,7,8], # Row3
+	# ---- ^^ ----
+	[0,3,6], # Col1
+	[1,4,7], # Col2
+	[2,5,8]  # Col3
+	
+);
+$boxRow1 = $boxSegments[0]; 
+$boxRow2 = $boxSegments[1];
+$boxRow3 = $boxSegments[2];
+$boxCol1 = $boxSegments[3];
+$boxCol2 = $boxSegments[4];
+$boxCol3 = $boxSegments[5];
+
+
 #	CELL INDICIES
 # 		 0	 1	 2			 3	 4	 5			 6	 7	 8
 # 		 9	10	11			12	13	14			15	16	17
@@ -133,21 +152,22 @@ use Data::Dumper;
 # config
 $error		= 0; # [0=none, 1=fail, 2=inspect]
 $guessing	= 1; # [y=1,n=2]; non-deterministic puzzles ( no single solution, etc )
+$update		= 0;
 $maxIterations	= 25;
 $iteration	= 1;
 $file		= './permutations/permutations.txt';
 @file_list	= split /\n/,`cat "${file}"`;
 @cells = qw(
 
-.	.	4	.	.	6	.	.	1
-.	2	.	9	.	7	.	.	.
-.	.	.	.	.	3	.	.	5
-.	.	.	.	.	.	3	.	6
-.	9	.	7	.	.	1	.	.
-3	7	.	.	.	.	.	.	8
-4	.	.	.	5	.	.	.	.
-.	.	.	2	.	.	.	8	.
-7	.	.	6	.	.	2	.	.
+8	.	.	4	.	.	5	.	.
+1	3	.	.	.	7	.	8	.
+.	6	.	.	.	.	2	.	1
+.	.	.	.	.	1	.	.	.
+.	.	6	9	.	2	.	.	.
+.	.	.	.	.	.	.	3	4
+.	7	.	.	.	.	.	2	8
+3	.	.	.	.	4	.	.	7
+.	.	.	.	9	.	.	.	.
 
 );
 
@@ -157,13 +177,16 @@ $file		= './permutations/permutations.txt';
 &saveState;
 &iterate;
 
+print Dumper \@permutations;
+
 sub iterate {
 
-	while (	( &getKnownCount != 81 ) && 				# 81 = solved
-		( $state[$#state] ne $state[$#state - 1] ) && 		# (State = State) = No Progress
+	while (	( &getKnownCount != 81 ) && # 81 = solved
+		( ( $state[$#state] ne $state[$#state - 1] ) || ( $update == 1) ) && # (State = State) = No Progress
 		( $iteration <= $maxIterations ) &&
 		( $error != 1 )	)	{
 	
+		$update = 0;
 		&solvePuzzle;
 		$iteration += 1;
 	
@@ -174,29 +197,26 @@ sub iterate {
 sub solvePuzzle {
 	
 	# Log
-	&outputPuzzleHeader;
-	
-	print ("\n" x 2);
-	&outputPuzzleTSV;
+	print ("\n" x 0); &outputPuzzleHeader;
 
+	# Log  (TSV)
+	print ("\n" x 2); &outputPuzzleTSV;
 
 	# Puzzle
 	&setRequiredValues;	# WRITES to @Cells
 	&setRegexes;
-	&getPermutations;	
+	&getPermutations;
+	
+	# Log	
+	print ("\n" x 2); &outputRegexes;
+# 	print ("\n" x 1); &outputPermutations;
+	
+	# Puzzle
+	&setIntersections;	# WRITES to @permutations
 	&setColumnSummaries;	# WRITES to @Cells
 
-
-	# Log
-	print ("\n" x 2);
-	&outputRegexes;
-	
-	print ("\n" x 1);
-	#&outputPermutations;
-
-	print ("\n" x 1);
-	&outputPuzzleTSV;
-
+	# Log (TSV)
+	print ("\n" x 1); &outputPuzzleTSV;
 	
 	# State
 	&saveState;
@@ -377,12 +397,13 @@ sub setRequiredValues {
 						
 						if ( $numMatches  == 1 ) {  	# True? Current cell value is now known; It's the only cell to provide the required digit for the row|col|box @{$indicies[$i]}.
 										# Example: Cell value 789 becomes 7.
-										
+								
+							$update = 1;		
 							$cells[ $cellList[$valueIndex] -1 ] = ${digit}; # WRITE Cell
 							
 							# LOG
-							print "\n\nList $i — $values\n";
-							print "Digit $digit found once; Changing cells[".($cellList[$valueIndex] -1)."]=$value to value $digit. Knowns: ".&getKnownCount." | setRequiredValues\n\n";							
+							print "\nList $i — $values\n";
+							print "Digit $digit found once; Changing cells[".($cellList[$valueIndex] -1)."]=$value to value $digit. Knowns: ".&getKnownCount." | setRequiredValues\n";							
 							
 						}
 						
@@ -480,6 +501,8 @@ sub setColumnSummary {
 		for my $ii ( 0 .. 8 ) { # Each index in @columnSummary
 			if ( $columnSummary[$ii] > 0 ) { $possible .= ("" . ($ii + 1)) }
 			if ( ($columnSummary[$ii] == $totalPermutations) && ( $cells[$cellIndex] != ($ii+1) ) ) {
+				
+				$update = 1;
 				$write = 1;
 				$cells[$cellIndex] = $ii + 1; # Set the cell to the digit when the digit occurs in every permutation.
 				
@@ -514,7 +537,7 @@ sub outputRegexes {
 	
 	foreach $i ( 0 .. $#regexes ) {
 		
-		print "" . ($i + 1) . "\t$labels[$i] (" .( scalar @{$permutations[$i]} ). ")\t$regexes[$i]\n";
+		print "$i\t$labels[$i] (" .( scalar @{$permutations[$i]} ). ")\t$regexes[$i]\n";
 
 		if ( ($i > 0) && ($i != $#regexes) && ($i % 9) == 8 ) { print "\n"; }
 		
@@ -536,7 +559,7 @@ sub outputPermutations {
 	
 	foreach my $i ( 0 .. 26 ) { # 27 Permutation Lists
 		
-		print "\n\nIteration $iteration\tPermutations ".($i + 1) . " " . $labels[$i] . " (".( scalar @{$permutations[$i]} ).")\n";
+		print "\n\nIteration $iteration\tPermutations $i " . $labels[$i] . " (".( scalar @{$permutations[$i]} ).")\n";
 		
 		print join ";", @{$permutations[$i]}; print ";";
 		
@@ -584,6 +607,207 @@ sub outputPuzzleHeader {
 	print ( ("=" x 50), "\n" );
 	print "Puzzle Iteration ($iteration)\n";
 	print ( ("=" x 50), "\n" );
+}
+
+
+
+# SUBROUTINES FOR INTERSECTIONS
+
+sub setIntersections {
+
+	# Iterate over the 18 combinations of Box-Row, Box-Col intersections.
+	# [ index, index, segment, segment ]; index is the key value for @permutations (which corresponds to @indicies)
+	my @params = (
+		# Row-Box
+		[  0, 18, [0,1,2], $boxRow1 ],
+		[  0, 19, [3,4,5], $boxRow1 ],
+		[  0, 20, [6,7,8], $boxRow1 ],
+		[  1, 18, [0,1,2], $boxRow2 ],
+		[  1, 19, [3,4,5], $boxRow2 ],
+		[  1, 20, [6,7,8], $boxRow2 ],
+		[  2, 18, [0,1,2], $boxRow3 ],
+		[  2, 19, [3,4,5], $boxRow3 ],
+		[  2, 20, [6,7,8], $boxRow3 ],
+
+		[  3, 21, [0,1,2], $boxRow1 ],
+		[  3, 22, [3,4,5], $boxRow1 ],
+		[  3, 23, [6,7,8], $boxRow1 ],
+		[  4, 21, [0,1,2], $boxRow2 ],
+		[  4, 22, [3,4,5], $boxRow2 ],
+		[  4, 23, [6,7,8], $boxRow2 ],
+		[  5, 21, [0,1,2], $boxRow3 ],
+		[  5, 22, [3,4,5], $boxRow3 ],
+		[  5, 23, [6,7,8], $boxRow3 ],
+
+		[  6, 24, [0,1,2], $boxRow1 ],
+		[  6, 25, [3,4,5], $boxRow1 ],
+		[  6, 26, [6,7,8], $boxRow1 ],
+		[  7, 24, [0,1,2], $boxRow2 ],
+		[  7, 25, [3,4,5], $boxRow2 ],
+		[  7, 26, [6,7,8], $boxRow2 ],
+		[  8, 24, [0,1,2], $boxRow3 ],
+		[  8, 25, [3,4,5], $boxRow3 ],
+		[  8, 26, [6,7,8], $boxRow3 ],
+		
+		# Col-Box
+		[  9, 18, [0,1,2], $boxCol1 ],
+		[  9, 21, [3,4,5], $boxCol1 ],
+		[  9, 24, [6,7,8], $boxCol1 ],
+		[ 10, 18, [0,1,2], $boxCol2 ],
+		[ 10, 21, [3,4,5], $boxCol2 ],
+		[ 10, 24, [6,7,8], $boxCol2 ], 
+		[ 11, 18, [0,1,2], $boxCol3 ],
+		[ 11, 21, [3,4,5], $boxCol3 ],
+		[ 11, 24, [6,7,8], $boxCol3 ], 
+
+		[ 12, 19, [0,1,2], $boxCol1 ],
+		[ 12, 22, [3,4,5], $boxCol1 ],
+		[ 12, 25, [6,7,8], $boxCol1 ], 
+		[ 13, 19, [0,1,2], $boxCol2 ],
+		[ 13, 22, [3,4,5], $boxCol2 ],
+		[ 13, 25, [6,7,8], $boxCol2 ], 
+		[ 14, 19, [0,1,2], $boxCol3 ],
+		[ 14, 22, [3,4,5], $boxCol3 ],
+		[ 14, 25, [6,7,8], $boxCol3 ], 	
+
+		[ 15, 20, [0,1,2], $boxCol1 ],
+		[ 15, 23, [3,4,5], $boxCol1 ],
+		[ 15, 26, [6,7,8], $boxCol1 ],
+		[ 16, 20, [0,1,2], $boxCol2 ],
+		[ 16, 23, [3,4,5], $boxCol2 ],
+		[ 16, 26, [6,7,8], $boxCol2 ],
+		[ 17, 20, [0,1,2], $boxCol3 ],
+		[ 17, 23, [3,4,5], $boxCol3 ], 
+		[ 17, 26, [6,7,8], $boxCol3 ]
+
+	);
+
+	for my $i ( 0 .. $#params ) {
+	
+		@a	= &getPermutationSegmentKeys( $params[$i][1], $params[$i][3] );
+		@b	= &getPermutationSegmentKeys( $params[$i][0], $params[$i][2] );
+
+		%intersection = &getIntersection(\@a, \@b);
+
+		&setIntersection(\%intersection, $params[$i][0], $params[$i][1], $params[$i][2], $params[$i][3], $i );	
+	}
+
+}
+
+sub setIntersection {
+
+	my ($hash, $index1, $index2, $seg1, $seg2, $no) = @_;
+	
+	my %intersection = %{$hash};
+
+	# Segment Elements
+	my @s1 = @{$seg1};
+	my @s2 = @{$seg2};
+
+	# Filtered Lists
+	my @arr1_filtered = ();
+	my @arr2_filtered = ();
+	
+	my @keys = keys %intersection;
+
+	foreach $key (@keys) {
+		if ( length $intersection{$key} > 1 ) {
+
+			@digits = split //, $key;
+			@mask1 = ('\d','\d','\d','\d','\d','\d','\d','\d','\d');
+			@mask2 = ('\d','\d','\d','\d','\d','\d','\d','\d','\d');
+
+			$mask1[$s1[0]] = $digits[0];
+			$mask1[$s1[1]] = $digits[1];
+			$mask1[$s1[2]] = $digits[2];
+
+			$mask2[$s2[0]] = $digits[0];
+			$mask2[$s2[1]] = $digits[1];
+			$mask2[$s2[2]] = $digits[2];
+
+			$mask1_filter = join "", @mask1;
+			$mask2_filter = join "", @mask2;
+			
+			push @arr1_filtered, grep { $_ =~ /$mask1_filter/ } @{$permutations[$index1]}; 
+			push @arr2_filtered, grep { $_ =~ /$mask2_filter/ } @{$permutations[$index2]}; 
+		
+		}
+	}
+	
+	# Logging
+	$scal1 = scalar @{$permutations[$index1]};
+	$scal1f = scalar @arr1_filtered;
+	$scal2 = scalar @{$permutations[$index2]};
+	$scal2f = scalar @arr2_filtered;
+	
+	
+	if ( ( $scal1 != $scal1f ) || ( $scal2 != $scal2f ) ) {
+		print "\nFiltered intersection $no; ( $scal1, $scal1f ), ( $scal2, $scal2f )\n";
+		$update = 1;
+	}
+	
+	
+	# Clear, Reset permutations arrays to filtered lists
+	@{$permutations[$index1]} = ();
+	@{$permutations[$index1]} = @arr1_filtered;
+	
+	@{$permutations[$index2]} = ();
+	@{$permutations[$index2]} = @arr2_filtered;
+	
+
+}
+
+sub getPermutationSegmentKeys {
+
+	# accepts a permutation list, creates list of unique 3-number segment strings
+	# example: @( @(123456789, 456123789, 456789123), [6,7,8] ) = @( 789, 123 )
+
+	my @permutationList = @{$permutations[@_[0]]};
+	my ($a,$b,$c) = @{ @_[1] };
+
+	my %segments;
+	foreach $p ( @permutationList ) {
+		my @s = split //, $p;
+		$segments{"$s[$a]$s[$b]$s[$c]"} = 1;
+	}
+	
+	return sort (keys %segments);
+
+}
+
+sub getIntersection {
+
+	# accepts multiple lists (\d{3}, \d+, or \w+) created by getPermutationSegmentKeys, 
+	# returns a hash identifying which list values are shared and/or unique
+	#
+	# example: @( @(5,8), @(3,5) ) =  %{3:"2", 5:"2,1", 8:"1"} 
+	# example explained: Digit 5 is in both lists "2,1", 3 is in list "2", 8 is list "1".
+
+	my %hashKeys;
+
+	my $i = 1;
+	foreach $ref (@_) {
+		foreach $item ( @{$ref} ) {
+			if ( ($hashKeys{$item} != undef) && ($hashKeys{$item} != $i) ) { $hashKeys{$item} .= ","; }
+			$hashKeys{$item} .= $i;
+		}
+		$i ++;
+	}
+	
+	# DEBUG
+# 	print Dumper \%hashKeys;
+	
+	return %hashKeys;
+			
+}
+
+sub outputPermutationLengths {
+	foreach my $i (0 .. $#permutations) {
+		$scalar = scalar @{ $permutations[$i] };
+	
+		print "$i ($scalar)";
+		print "\n";
+	}
 }
 
 # END
