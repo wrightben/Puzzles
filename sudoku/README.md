@@ -19,18 +19,18 @@ real	0m4.322s
 
 
 #### Numbers to CSV.numbers
-Use *Numbers to CSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **sudoku_solver.pl**.
+Use *Numbers to CSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **sudoku_solver.pl**. If the solver gets "stuck" and requires a guess, just replace a dot with the specific number. It's not necessary to replace the whole puzzle with the intermediate regex values.
 
 ```
-4	.	.	9	.	.	8	6	.
-.	.	.	.	.	7	2	.	.
-.	3	.	2	5	.	.	.	.
-.	1	7	.	.	5	.	2	9
-.	9	.	.	.	6	.	.	.
-.	6	.	.	.	.	.	7	.
-.	.	.	4	.	.	5	.	.
-7	.	.	.	.	.	9	.	.
-.	.	.	.	6	2	4	.	.
+.	.	4	.	.	6	.	.	1
+.	2	.	9	.	7	.	.	.
+.	.	.	.	.	3	.	.	5
+.	.	.	.	.	.	3	.	6
+.	9	.	7	.	.	1	.	.
+3	7	.	.	.	.	.	.	8
+4	.	.	.	5	.	.	.	.
+.	.	.	2	.	.	.	8	.
+7	.	.	6	.	.	2	.	.
 
 # Glitch Warning: Missing .?
 ```

@@ -10,35 +10,6 @@ use Data::Dumper;
 #	Overview: Constants for rows,cols,and 9-digit boxes.
 # 	1. EXCEL: Use it to make these constants.
 #	2. READ: Either inline or from external csv; See puzzle ( sudoku.csv ).
-
-@rc = (
-	[ 1,1 ],[ 1,2 ],[ 1,3 ],	[ 1,4 ],[ 1,5 ],[ 1,6 ],	[ 1,7 ],[ 1,8 ],[ 1,9 ],
-	[ 2,1 ],[ 2,2 ],[ 2,3 ],	[ 2,4 ],[ 2,5 ],[ 2,6 ],	[ 2,7 ],[ 2,8 ],[ 2,9 ],
-	[ 3,1 ],[ 3,2 ],[ 3,3 ],	[ 3,4 ],[ 3,5 ],[ 3,6 ],	[ 3,7 ],[ 3,8 ],[ 3,9 ],
-
-	[ 4,1 ],[ 4,2 ],[ 4,3 ],	[ 4,4 ],[ 4,5 ],[ 4,6 ],	[ 4,7 ],[ 4,8 ],[ 4,9 ],
-	[ 5,1 ],[ 5,2 ],[ 5,3 ],	[ 5,4 ],[ 5,5 ],[ 5,6 ],	[ 5,7 ],[ 5,8 ],[ 5,9 ],
-	[ 6,1 ],[ 6,2 ],[ 6,3 ],	[ 6,4 ],[ 6,5 ],[ 6,6 ],	[ 6,7 ],[ 6,8 ],[ 6,9 ],
-
-	[ 7,1 ],[ 7,2 ],[ 7,3 ],	[ 7,4 ],[ 7,5 ],[ 7,6 ],	[ 7,7 ],[ 7,8 ],[ 7,9 ],
-	[ 8,1 ],[ 8,2 ],[ 8,3 ],	[ 8,4 ],[ 8,5 ],[ 8,6 ],	[ 8,7 ],[ 8,8 ],[ 8,9 ],
-	[ 9,1 ],[ 9,2 ],[ 9,3 ],	[ 9,4 ],[ 9,5 ],[ 9,6 ],	[ 9,7 ],[ 9,8 ],[ 9,9 ]
-);
-
-@indexToBox = (	
-	1,1,1, 2,2,2, 3,3,3,
-	1,1,1, 2,2,2, 3,3,3,
-	1,1,1, 2,2,2, 3,3,3,
-
-	4,4,4, 5,5,5, 6,6,6,
-	4,4,4, 5,5,5, 6,6,6,
-	4,4,4, 5,5,5, 6,6,6,
-
-	7,7,7, 8,8,8, 9,9,9,
-	7,7,7, 8,8,8, 9,9,9,
-	7,7,7, 8,8,8, 9,9,9
-);
-
 @boxSegments = (
 
 	[0,1,2], # Row1
@@ -72,6 +43,7 @@ $boxCol3 = $boxSegments[5];
 # 		72	73	74			75	76	77			78	79	80
 
 @indiciesByCellIndex = (
+	# @indiciesByCellIndex[cellIndex] = @indicies[row,col,box]
 	[ 0,9,18 ], [ 0,10,18 ], [ 0,11,18 ],	[ 0,12,19 ], [ 0,13,19 ], [ 0,14,19 ],	[ 0,15,20 ], [ 0,16,20 ], [ 0,17,20 ],
 	[ 1,9,18 ], [ 1,10,18 ], [ 1,11,18 ],	[ 1,12,19 ], [ 1,13,19 ], [ 1,14,19 ],	[ 1,15,20 ], [ 1,16,20 ], [ 1,17,20 ],
 	[ 2,9,18 ], [ 2,10,18 ], [ 2,11,18 ],	[ 2,12,19 ], [ 2,13,19 ], [ 2,14,19 ],	[ 2,15,20 ], [ 2,16,20 ], [ 2,17,20 ],
@@ -159,7 +131,7 @@ $file		= './permutations/permutations.txt';
 @file_list	= split /\n/,`cat "${file}"`;
 @cells = qw(
 
-.	.	4	.	.	6	.	.	1
+8	.	4	.	.	6	.	.	1
 .	2	.	9	.	7	.	.	.
 .	.	.	.	.	3	.	.	5
 .	.	.	.	.	.	3	.	6
@@ -178,7 +150,7 @@ $file		= './permutations/permutations.txt';
 &iterate;
 
 # Log
-print ("\n" x 2); &outputPermutations;	
+print ("\n" x 2); &outputPermutations(0);	
 
 
 
@@ -419,7 +391,7 @@ sub setRequiredValues {
 		
 		@countedValues = ( 0,0,0,0,0,0,0,0,0 );
 		
-		foreach $valueIndex ( 0 .. 8) { # 9-digit iterator for both cellList (indexes) and cellListValues (values)
+		foreach $valueIndex ( 0 .. 8 ) { # 9-digit iterator for both cellList (indexes) and cellListValues (values)
 		
 			$value = $cellListValues[$valueIndex]; # Current cell value
 			
@@ -596,34 +568,32 @@ sub outputPermutations {
 	
 	my $total_permutations = 0;
 	
-	print( ("\n" x 1), "PERMUTATIONS label (count) - [sum, needed]\n" );
+	print( ("\n" x 1), "outputPermutations label (count) - [sum, needed]\n" );
 	
 	foreach my $i ( 0 .. 26 ) { # 27 Permutation Lists
 		
 		my $conform = &checkConform($i);
 
-		print( 	 # ] // 
+		print(
 			("\n" x 1),
-			# Index: [ // iteration, label, count - [$SUM of row, col or box, @NEEDED] | function
-			"$i", ": [\t// $labels[$i] (".( scalar @{$permutations[$i]} ).") - [@{$conform}[0], ".(( join "", @{@{$conform}[1]} ) || "-") .   "] | Permutations\n\t",
+			"$i: [\t// $labels[$i] ("  .  ( scalar @{$permutations[$i]} )  .  ") - [@{$conform}[0], "  .  (( join "", @{@{$conform}[1]} ) || "-")  .  "]\n\t",
 			( join ", ", @{$permutations[$i]} ),
 			("\n" x 1),
-			"]"
+			"]", 
+			( ($i < 26) ? "," : "" ) # Comma?
 		);
-		
-# 		print( 	("\n" x 1),
-# 			"$i", ": [ // $labels[$i] (".( scalar @{$permutations[$i]} ).") | Permutations Iteration $iteration\n\t",   # Index: [ // iteration, label, count | function
-# 			join ",\n\t", @{$permutations[$i]}, # [ ]
-# 			"\n] // @{$conform}[0], ".( join "", @{@{$conform}[1]} ) # ] // $SUM of row, col or box, @NEEDED
-# 		);
+
 		
 		if ($columnSummariesOn) {
-			print "\n\n";
+			
+			print ("\n" x 2);
+			
 			my @cellSummaries = @{ &getColumnSummary( @{$permutations[$i]} ) };
 		
 			print "Cell\t";
 			print join "\t", map { $_ - 1 } @{ $indicies[$i] }; # 0-base cell indexes
 			print "\n";
+			
 			foreach $r1 ( 0 .. 8 ) {
 				print "\n" . ($r1 + 1);
 				foreach $r2 ( 0 .. 8 ) {
@@ -639,7 +609,7 @@ sub outputPermutations {
 		
 	}
 	
-	print( ("\n" x 2) . "Total Permutations: $total_permutations");
+	print( ("\n" x 2), "Total Permutations: $total_permutations" );
 	print ("\n" x 1);
 
 }
