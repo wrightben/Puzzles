@@ -131,7 +131,7 @@ $file		= './permutations/permutations.txt';
 @file_list	= split /\n/,`cat "${file}"`;
 @cells = qw(
 
-8	.	4	.	.	6	.	.	1
+.	.	4	.	.	6	.	.	1
 .	2	.	9	.	7	.	.	.
 .	.	.	.	.	3	.	.	5
 .	.	.	.	.	.	3	.	6
