@@ -177,7 +177,11 @@ $file		= './permutations/permutations.txt';
 &saveState;
 &iterate;
 
-print Dumper \@permutations;
+# Log
+print ("\n" x 2); &outputPermutations;	
+
+
+
 
 sub iterate {
 
@@ -209,7 +213,6 @@ sub solvePuzzle {
 	
 	# Log	
 	print ("\n" x 2); &outputRegexes;
-# 	print ("\n" x 1); &outputPermutations;
 	
 	# Puzzle
 	&setIntersections;	# WRITES to @permutations
@@ -339,12 +342,46 @@ sub getPermutations {
 }
 
 sub getKnownCount {
+	
+	# $puzzle is global
 	$puzzle = join "\t", @cells;
+	
 	my @unknowns = ($puzzle =~ /\.|\d\d+/g);
 	
-# 	print Dumper \@unknowns;
-	
 	return 81 - (scalar @unknowns);
+}
+
+sub checkConform {
+
+	# For a row, col, or box ... 
+	# Returns: [sum of knowns, list of unknowns]
+
+	@items = &getIndex(shift @_); # expects zero-based index: Row 7 is Index 6.
+	
+	my $sum = 0;
+	my @need = (1,2,3,4,5,6,7,8,9);
+	
+	foreach $item (@items) {
+		my $value = $cells[$item -1];
+		if ( ($value =~ /\d/) && ($value < 10) ) {
+			$need[$value -1] = undef;
+			$sum += $value;
+		}
+	}
+
+	my @need = grep { $_ } @need;
+	
+	# Perl in a nutshell ... 
+# 	return ($sum, @need); # Return a list (separate vars, all at same level); Stores in an array
+# 	return [$sum, @need]; # Return a scalar ref to array, all at same level
+	return [$sum, \@need]; # Return a scalar ref to array [ int, [] ] 
+	
+}
+
+sub getIndex {
+	# Perl in a nutshell ... 
+	my $index = shift @_;
+	return @{$indicies[$index]}; # Return a list (separate vars, all at same level); Stores in array.
 }
 
 sub setDotCellValues {
@@ -546,6 +583,8 @@ sub outputRegexes {
 }
 
 sub outputPermutations {
+
+	my $columnSummariesOn = shift @_;
 	
 	my @labels = qw(
 	
@@ -557,32 +596,51 @@ sub outputPermutations {
 	
 	my $total_permutations = 0;
 	
+	print( ("\n" x 1), "PERMUTATIONS label (count) - [sum, needed]\n" );
+	
 	foreach my $i ( 0 .. 26 ) { # 27 Permutation Lists
 		
-		print "\n\nIteration $iteration\tPermutations $i " . $labels[$i] . " (".( scalar @{$permutations[$i]} ).")\n";
+		my $conform = &checkConform($i);
+
+		print( 	 # ] // 
+			("\n" x 1),
+			# Index: [ // iteration, label, count - [$SUM of row, col or box, @NEEDED] | function
+			"$i", ": [\t// $labels[$i] (".( scalar @{$permutations[$i]} ).") - [@{$conform}[0], ".(( join "", @{@{$conform}[1]} ) || "-") .   "] | Permutations\n\t",
+			( join ", ", @{$permutations[$i]} ),
+			("\n" x 1),
+			"]"
+		);
 		
-		print join ";", @{$permutations[$i]}; print ";";
+# 		print( 	("\n" x 1),
+# 			"$i", ": [ // $labels[$i] (".( scalar @{$permutations[$i]} ).") | Permutations Iteration $iteration\n\t",   # Index: [ // iteration, label, count | function
+# 			join ",\n\t", @{$permutations[$i]}, # [ ]
+# 			"\n] // @{$conform}[0], ".( join "", @{@{$conform}[1]} ) # ] // $SUM of row, col or box, @NEEDED
+# 		);
 		
-		print "\n\n";
-		my @cellSummaries = @{ &getColumnSummary( @{$permutations[$i]} ) };
+		if ($columnSummariesOn) {
+			print "\n\n";
+			my @cellSummaries = @{ &getColumnSummary( @{$permutations[$i]} ) };
 		
-		print "Cell\t";
-		print join "\t", map { $_ - 1 } @{ $indicies[$i] }; # 0-base cell indexes
-		print "\n";
-		foreach $r1 ( 0 .. 8 ) {
-			print "\n" . ($r1 + 1);
-			foreach $r2 ( 0 .. 8 ) {
-				print "\t".$cellSummaries[$r2][$r1];
+			print "Cell\t";
+			print join "\t", map { $_ - 1 } @{ $indicies[$i] }; # 0-base cell indexes
+			print "\n";
+			foreach $r1 ( 0 .. 8 ) {
+				print "\n" . ($r1 + 1);
+				foreach $r2 ( 0 .. 8 ) {
+					print "\t".$cellSummaries[$r2][$r1];
+				}
 			}
+		
+			print "\n";		
 		}
 		
-		print "\n";
-		
+
 		$total_permutations += scalar @{$permutations[$i]};
 		
 	}
 	
-	print "Total Permutations: $total_permutations\n";
+	print( ("\n" x 2) . "Total Permutations: $total_permutations");
+	print ("\n" x 1);
 
 }
 
