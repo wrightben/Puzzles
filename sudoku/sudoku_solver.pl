@@ -1,9 +1,5 @@
 #!/usr/bin/perl5.28
-
-
 use Data::Dumper;
-# $Data::Dumper::Pair = ' : ';
-# print Dumper \@myarray
 
 
 # SECTION: GLOBAL VARIABLES
@@ -129,8 +125,7 @@ $maxIterations	= 25;
 $iteration	= 1;
 $file		= './permutations/permutations.txt';
 @file_list	= split /\n/,`cat "${file}"`;
-@cells = qw(
-
+@cells = qw( # PUZZLE TSV
 .	.	4	.	.	6	.	.	1
 .	2	.	9	.	7	.	.	.
 .	.	.	.	.	3	.	.	5
@@ -140,8 +135,7 @@ $file		= './permutations/permutations.txt';
 4	.	.	.	5	.	.	.	.
 .	.	.	2	.	.	.	8	.
 7	.	.	6	.	.	2	.	.
-
-);  # Absurd Puzzle: 4849ade1a96bcc30c4cfef7262e25fde
+);
 
 # Solver
 &outputPuzzleTSV;
@@ -151,7 +145,7 @@ $file		= './permutations/permutations.txt';
 
 # Log
 print ("\n" x 2); &outputPermutations(0);	
-
+&histogram;
 
 
 
@@ -638,6 +632,52 @@ sub outputPuzzleHeader {
 }
 
 
+# SUBROUTINES FOR HISTOGRAM
+
+sub histogram {
+
+	my (@need, @histogram, $unknownCount, @strings);
+
+	@need = (9,9,9,9,9,9,9,9,9);
+	@histogram = ( [], [], [], [], [], [], [], [], [] );
+	$unknownCount = 0;
+
+	foreach $i ( 0 .. $#cells ) {
+		my $cell = $cells[$i];
+		if ( $cell =~ /\d\d+/ ) {
+			$unknownCount += 1;
+			@digits = split //, $cell;
+			foreach $digit ( @digits ) {
+				push @{$histogram[$digit - 1]}, $i;
+			}
+		} elsif ( $cell =~ /^\d$/ ){
+			$need[$cell -1] -= 1;
+		}
+	}
+
+	# @strings
+	foreach $item (@histogram) {
+		push @strings, "[ " . ( join ",", @{$item} ) . " ]\n"; # Concat output
+	}
+
+	
+	print (
+		("\n" x 2),
+		"Histogram\n",
+		( join "", @strings),
+		("\n" x 1),
+		"Unknown Count: $unknownCount"
+	);
+
+	print( 
+		("\n" x 1),
+		"Need Count\n",
+		( join ", ", @need)
+	);
+
+}
+
+# END
 
 # SUBROUTINES FOR INTERSECTIONS
 
