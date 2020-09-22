@@ -565,3 +565,19 @@ outputPermutations label (count) - [sum, needed]
 ]
 
 Total Permutations: 27
+
+
+Histogram
+[  ]
+[  ]
+[  ]
+[  ]
+[  ]
+[  ]
+[  ]
+[  ]
+[  ]
+
+Unknown Count: 0
+Need Count
+0, 0, 0, 0, 0, 0, 0, 0, 0
