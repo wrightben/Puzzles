@@ -194,16 +194,16 @@ sub getPossible {
 #	the undef values at those high index aren't included. I prevent this and the needless 
 #	expansion of the @possible array by not undef'ing values > 9.
 
-	my $cellIndex = shift;
-
-	my $rowIndex = $indiciesByCellIndex[ $cellIndex ][0];
-	my $colIndex = $indiciesByCellIndex[ $cellIndex ][1];
-	my $boxIndex = $indiciesByCellIndex[ $cellIndex ][2];
+	my ($cellIndex, $rowIndex, $colIndex, $boxIndex);
+	
+	$cellIndex = shift;
+	
+	( $rowIndex, $colIndex, $boxIndex ) = @{ $indiciesByCellIndex[ $cellIndex ] };
 
 	my @possible = (1,2,3,4,5,6,7,8,9);
 
 	# Iterate over the row, col, and box for this cellIndex
-	foreach my $num ( ( @{$indicies[$rowIndex]}, @{$indicies[$colIndex]}, @{$indicies[$boxIndex]}  ) ) {  # $num is a cellIndex from the list, not zero-based
+	foreach my $num ( 	( getIndex($rowIndex), getIndex($colIndex), getIndex($boxIndex) )	) {  # $num is a cellIndex from the list, not zero-based
 	
 		$value = $cells[$num -1];
 		if ( ($value =~ /\d/) && ($value < 10) ) { $possible[$value - 1] = undef; }
