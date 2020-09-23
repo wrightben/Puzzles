@@ -6,6 +6,8 @@ package StemAndLeafPM;
 #	package WrightPM;	(in lib/WrightPM.pm)
 #	use lib::WrightPM;	(in SomeOtherFile.pl)
 
+# GLITCH Warning: Can't find module? Try: $perl file.pl instead of $./file.pl
+
 # EXPORT Notes
 # Subroutines can be called by MAIN (not this package) without being @EXPORT or @EXPORT_OK by using the qualified namespace: &{WrightPM::moduleTest};
 
@@ -27,6 +29,13 @@ our @EXPORT_OK = qw( ); # Export on request ( ? )
 
 # BEGIN MODULE
 
+# ABOUT THE MODULE:
+# This module creates a stem-and-leaf using the regexes in @cells. 
+# It lists the total # of each digit remaining to solve the puzzle
+# It lists which cells are available for each index.
+# It lists which boxes the cell indexes correspond to for each digit.
+
+# Globals
 @indexToBox = (	
 	1,1,1, 2,2,2, 3,3,3,
 	1,1,1, 2,2,2, 3,3,3,

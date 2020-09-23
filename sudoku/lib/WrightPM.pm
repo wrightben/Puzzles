@@ -6,6 +6,8 @@ package WrightPM;
 #	package WrightPM;	(in lib/WrightPM.pm)
 #	use lib::WrightPM;	(in SomeOtherFile.pl)
 
+# GLITCH Warning: Can't find module? Try: $perl file.pl instead of $./file.pl
+
 # EXPORT Notes
 # Subroutines can be called by MAIN (not this package) without being @EXPORT or @EXPORT_OK by using the qualified namespace: &{WrightPM::moduleTest};
 

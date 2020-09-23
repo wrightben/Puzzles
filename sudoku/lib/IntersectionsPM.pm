@@ -26,6 +26,11 @@ our @EXPORT_OK = qw( ); # Export on request ( ? )
 
 # BEGIN MODULE
 
+# ABOUT THE MODULE:
+# This module accepts a list of arrays (permutations for each row, col, and box) and
+# filters the arrays for each intersection of box-row or box-col
+
+# Globals
 @boxSegments = (
 
 	[0,1,2], # Row1
@@ -45,9 +50,10 @@ $boxCol2 = $boxSegments[4];
 $boxCol3 = $boxSegments[5];
 
 
+# @permutations: "Real" global with "Dummy" data
 @permutations = (
 	[	# Row_1 (2) - [26, 289]
-		"934586721", "834526791"
+		"934586721", "834526791", "321654798" # TEST
 	],
 	[	# Row_2 (8) - [18, 134568]
 		"825917463", "528917463", "125987463", "625917843", "526917843", "125947863", "625917834", "526917834"
@@ -101,7 +107,7 @@ $boxCol3 = $boxSegments[5];
 		"145628739", "135628794", "145628793"
 	],
 	[	# Box_1 (8) - [16, 15689]
-		"934526817", "934125867", "934825167", "834125967", "934825617", "934625817", "934528167", "934528617"
+		"934526817", "934125867", "934825167", "834125967", "934825617", "934625817", "934528167", "934528617", "123456789" # TEST
 	],
 	[	# Box_2 (6) - [30, 1248]
 		"526947813", "526987143", "526947183", "586917423", "526987413", "586947123"
@@ -119,7 +125,7 @@ $boxCol3 = $boxSegments[5];
 		"376142958", "376152948", "376152498", "376142598"
 	],
 	[	# Box_7 (6) - [21, 13569]
-		"482163759", "482613759", "482653719", "482169753", "482619753", "482659713", "123456789" # <-- TEST
+		"482163759", "482613759", "482653719", "482169753", "482619753", "482659713", "123456789" # TEST
 	],
 	[	# Box_8 (4) - [32, 148]
 		"359271684", "359274681", "359271648", "359274618"
@@ -130,14 +136,8 @@ $boxCol3 = $boxSegments[5];
 );
 
 
-
-&setIntersections;
-
-
-sub outputGlobals {
-	print Dumper \@{Main::Permutations};
-}
-
+# TESTING
+# &setIntersections;
 
 
 
@@ -149,7 +149,6 @@ sub setIntersections {
 	my ($ref0) = shift @_ || \@permutations;
 	@permutations = @{$ref0}; # Setting local-global variable, if necessary;
 	
-	print Dumper \@permutations;
 
 	# Iterate over the 18 combinations of Box-Row, Box-Col intersections.
 	# [ index, index, segment, segment ]; index is the key value for @permutations (which corresponds to @indicies)
@@ -217,6 +216,8 @@ sub setIntersections {
 		[ 17, 26, [6,7,8], $boxCol3 ]
 
 	);
+	
+
 
 	for my $i ( 0 .. $#params ) {
 	
@@ -224,11 +225,15 @@ sub setIntersections {
 		@b	= &getPermutationSegmentKeys( $params[$i][0], $params[$i][2] );
 
 		%intersection = &getIntersection(\@a, \@b);
-
+		
 		&setIntersection(\%intersection, $params[$i][0], $params[$i][1], $params[$i][2], $params[$i][3], $i );	
 	}
 	
-	print Dumper \@permutations;
+	# Set the global | pseudo-global variable
+	my ($package, $filename, $line) = caller;
+	( @{main::permutations} = @permutations ) if ( $package == "main" );
+
+	return \@permutations;
 
 }
 
@@ -251,7 +256,7 @@ sub setIntersection {
 	foreach $key (@keys) {
 		if ( length $intersection{$key} > 1 ) {
 
-			@digits = split #, $key;
+			@digits = split //, $key;
 			@mask1 = ('\d','\d','\d','\d','\d','\d','\d','\d','\d');
 			@mask2 = ('\d','\d','\d','\d','\d','\d','\d','\d','\d');
 
@@ -307,7 +312,7 @@ sub getPermutationSegmentKeys {
 
 	my %segments;
 	foreach $p ( @permutationList ) {
-		my @s = split #, $p;
+		my @s = split //, $p;
 		$segments{"$s[$a]$s[$b]$s[$c]"} = 1;
 	}
 	
@@ -342,3 +347,6 @@ sub getIntersection {
 }
 
 # END
+
+
+1;
