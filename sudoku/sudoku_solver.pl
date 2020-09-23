@@ -1,5 +1,7 @@
 #!/usr/bin/perl5.28
 use Data::Dumper;
+use lib::WrightPM;
+
 
 # SECTION: GLOBAL VARIABLES
 # Hint: Use Excel
@@ -134,6 +136,7 @@ $maxIterations	= 25;
 $iteration	= 1;
 $file		= './permutations/permutations.txt';
 @file_list	= split /\n/,`cat "${file}"`;
+
 @cells = qw(
 .	.	4	.	.	6	.	.	1
 .	2	.	9	.	7	.	.	.
@@ -145,6 +148,7 @@ $file		= './permutations/permutations.txt';
 .	.	.	2	.	.	.	8	.
 7	.	.	6	.	.	2	.	.
 );
+
 
 # Solver
 &outputPuzzleTSV;
