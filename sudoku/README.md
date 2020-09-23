@@ -3,23 +3,23 @@ This will solve Sudoku.com puzzles, excluding the expert ones, which seem to req
 
 
 ```
-./Solver.pl  > ~/Desktop/Solver-Output.txt 
+./solver.pl  > ~/Desktop/Solver-Output.txt 
 ```
 
 
 ## Summary
 
-The file **permutations.txt** is the 9!-long list of permutations for 123456789, and **Solver.pl** requires it to solve a puzzle.
+The file **permutations.txt** is the 9!-long list of permutations for 123456789, and **solver.pl** requires it to solve a puzzle.
 
 ```
-$time ./Solver.pl  > ~/Desktop/Solver-Output.txt 
+$time ./solver.pl  > ~/Desktop/Solver-Output.txt 
 
 real	0m4.322s
 ```
 
 
 #### Numbers to TSV.numbers
-Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **Solver.pl**. If the solver gets "stuck" and requires a guess, just replace a dot with the specific number. It's not necessary to replace the whole puzzle with the intermediate regex values.
+Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **solver.pl**. If the solver gets "stuck" and requires a guess, just replace a dot with the specific number. It's not necessary to replace the whole puzzle with the intermediate regex values.
 
 ```
 .	.	4	.	.	6	.	.	1
