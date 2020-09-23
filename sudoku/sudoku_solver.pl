@@ -1,7 +1,8 @@
 #!/usr/bin/perl5.28
 use Data::Dumper;
-use lib::StemAndLeafPM;
+use lib::RegexPM;
 use lib::IntersectionsPM;
+use lib::StemAndLeafPM;
 
 # SECTION: GLOBAL VARIABLES
 # Hint: Use Excel
@@ -152,7 +153,7 @@ sub solvePuzzle {
 
 	# Puzzle
 	&setRequiredValues;	# WRITES to @Cells
-	&setRegexes;
+	&{RegexPM::setRegexes}(\@cells);
 	&getPermutations;
 	
 	# Log	
@@ -244,19 +245,6 @@ sub getColumnSummary {
 	return \@charPercent; # Ref (Scalar)
 }
 
-sub getRegex {
-	
-	my ( @cellList ) = @_;
-
-	$regex = "";
-	foreach $index ( @cellList ) {
-		#$regex .= $regex .= '['.$cells[$item -1].']'; # SLOW: w/o pipe
-		$regex .= '['. ( join '|',(split //,$cells[$index -1] ) ) . ']'; # FAST: w/ pipe
-	}
-
-	return $regex;
-	
-}
 
 sub getPermutations {
 	
@@ -402,16 +390,7 @@ sub setRequiredValues {
 
 }
 
-sub setRegexes {
-	
-	@regexes = (); # RESET list of regexes
 
-	# Rows (x9), Cols (x9), Boxes (x9)
-	foreach my $i ( 0 .. 26 ) {
-		push @regexes, getRegex( @{$indicies[ $i ]} );	
-	}
-
-}
 
 sub setColumnSummaries {
 

@@ -233,7 +233,7 @@ sub setIntersections {
 	my ($package, $filename, $line) = caller;
 	( @{main::permutations} = @permutations ) if ( $package == "main" );
 
-	return \@permutations;
+	return @permutations;
 
 }
 
