@@ -1,11 +1,23 @@
 #!/usr/bin/perl5.28
 use Data::Dumper;
 
-
 # SECTION: GLOBAL VARIABLES
-#	Overview: Constants for rows,cols,and 9-digit boxes.
-# 	1. EXCEL: Use it to make these constants.
-#	2. READ: Either inline or from external csv; See puzzle ( sudoku.csv ).
+# Hint: Use Excel
+
+@indexToBox = (	
+	1,1,1, 2,2,2, 3,3,3,
+	1,1,1, 2,2,2, 3,3,3,
+	1,1,1, 2,2,2, 3,3,3,
+
+	4,4,4, 5,5,5, 6,6,6,
+	4,4,4, 5,5,5, 6,6,6,
+	4,4,4, 5,5,5, 6,6,6,
+
+	7,7,7, 8,8,8, 9,9,9,
+	7,7,7, 8,8,8, 9,9,9,
+	7,7,7, 8,8,8, 9,9,9
+);
+
 @boxSegments = (
 
 	[0,1,2], # Row1
@@ -93,19 +105,16 @@ $boxCol3 = $boxSegments[5];
 	
 );
 
-@regexes = (
+@regexes = (		# 27 regular expressions
 	# Row 0-8
 	# Col 0-8
 	# Box 0-8
-	
-); # 27 regular expressions
+); 
 
-@permutations = ( # 27 lists of grepped permutations
-	
+@permutations = (	# 27 @arrays of grepped permutations
 	# Row 0-8
 	# Col 0-8
 	# Box 0-8
-
 );
 
 @state = ( 0 ); # Save puzzle states for guessing; 0 = no initial state
@@ -145,8 +154,7 @@ $file		= './permutations/permutations.txt';
 
 # Log
 print ("\n" x 2); &outputPermutations(0);	
-&histogram;
-
+&getRegexStemLeaf;
 
 
 sub iterate {
@@ -632,14 +640,15 @@ sub outputPuzzleHeader {
 }
 
 
-# SUBROUTINES FOR HISTOGRAM
+# SUBROUTINES FOR RegexStemLeaf
+# Requires @cells
 
-sub histogram {
+sub getRegexStemLeaf {
 
-	my (@need, @histogram, $unknownCount, @strings);
+	my (@need, @regexStemLeaf, $unknownCount, @strings);
 
 	@need = (9,9,9,9,9,9,9,9,9);
-	@histogram = ( [], [], [], [], [], [], [], [], [] );
+	@regexStemLeaf = ( [], [], [], [], [], [], [], [], [] );
 	$unknownCount = 0;
 
 	foreach $i ( 0 .. $#cells ) {
@@ -648,7 +657,7 @@ sub histogram {
 			$unknownCount += 1;
 			@digits = split //, $cell;
 			foreach $digit ( @digits ) {
-				push @{$histogram[$digit - 1]}, $i;
+				push @{$regexStemLeaf[$digit - 1]}, $i;
 			}
 		} elsif ( $cell =~ /^\d$/ ){
 			$need[$cell -1] -= 1;
@@ -656,14 +665,14 @@ sub histogram {
 	}
 
 	# @strings
-	foreach $item (@histogram) {
+	foreach $item (@regexStemLeaf) {
 		push @strings, "[ " . ( join ",", @{$item} ) . " ]\n"; # Concat output
 	}
 
 	
 	print (
 		("\n" x 2),
-		"Histogram\n",
+		"Regex Stem-Leaf\n",
 		( join "", @strings),
 		("\n" x 1),
 		"Unknown Count: $unknownCount"
@@ -680,6 +689,7 @@ sub histogram {
 # END
 
 # SUBROUTINES FOR INTERSECTIONS
+# Requires @permutations
 
 sub setIntersections {
 
@@ -867,15 +877,6 @@ sub getIntersection {
 	
 	return %hashKeys;
 			
-}
-
-sub outputPermutationLengths {
-	foreach my $i (0 .. $#permutations) {
-		$scalar = scalar @{ $permutations[$i] };
-	
-		print "$i ($scalar)";
-		print "\n";
-	}
 }
 
 # END
