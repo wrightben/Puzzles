@@ -1,25 +1,8 @@
 #!/usr/bin/perl5.28
 use Data::Dumper;
-use lib::WrightPM;
-
 
 # SECTION: GLOBAL VARIABLES
 # Hint: Use Excel
-
-@indexToBox = (	
-	1,1,1, 2,2,2, 3,3,3,
-	1,1,1, 2,2,2, 3,3,3,
-	1,1,1, 2,2,2, 3,3,3,
-
-	4,4,4, 5,5,5, 6,6,6,
-	4,4,4, 5,5,5, 6,6,6,
-	4,4,4, 5,5,5, 6,6,6,
-
-	7,7,7, 8,8,8, 9,9,9,
-	7,7,7, 8,8,8, 9,9,9,
-	7,7,7, 8,8,8, 9,9,9
-);
-
 @boxSegments = (
 
 	[0,1,2], # Row1
@@ -136,7 +119,6 @@ $maxIterations	= 25;
 $iteration	= 1;
 $file		= './permutations/permutations.txt';
 @file_list	= split /\n/,`cat "${file}"`;
-
 @cells = qw(
 .	.	4	.	.	6	.	.	1
 .	2	.	9	.	7	.	.	.
@@ -149,7 +131,6 @@ $file		= './permutations/permutations.txt';
 7	.	.	6	.	.	2	.	.
 );
 
-
 # Solver
 &outputPuzzleTSV;
 &setDotCellValues;	# WRITES to @Cells
@@ -158,7 +139,7 @@ $file		= './permutations/permutations.txt';
 
 # Log
 print ("\n" x 2); &outputPermutations(0);	
-&getRegexStemLeaf;
+# MODULE - StemAndLeaf?
 
 
 sub iterate {
@@ -644,53 +625,7 @@ sub outputPuzzleHeader {
 }
 
 
-# SUBROUTINES FOR RegexStemLeaf
-# Requires @cells
 
-sub getRegexStemLeaf {
-
-	my (@need, @regexStemLeaf, $unknownCount, @strings);
-
-	@need = (9,9,9,9,9,9,9,9,9);
-	@regexStemLeaf = ( [], [], [], [], [], [], [], [], [] );
-	$unknownCount = 0;
-
-	foreach $i ( 0 .. $#cells ) {
-		my $cell = $cells[$i];
-		if ( $cell =~ /\d\d+/ ) {
-			$unknownCount += 1;
-			@digits = split //, $cell;
-			foreach $digit ( @digits ) {
-				push @{$regexStemLeaf[$digit - 1]}, $i;
-			}
-		} elsif ( $cell =~ /^\d$/ ){
-			$need[$cell -1] -= 1;
-		}
-	}
-
-	# @strings
-	foreach $item (@regexStemLeaf) {
-		push @strings, "[ " . ( join ",", @{$item} ) . " ]\n"; # Concat output
-	}
-
-	
-	print (
-		("\n" x 2),
-		"Regex Stem-Leaf\n",
-		( join "", @strings),
-		("\n" x 1),
-		"Unknown Count: $unknownCount"
-	);
-
-	print( 
-		("\n" x 1),
-		"Need Count\n",
-		( join ", ", @need)
-	);
-
-}
-
-# END
 
 # SUBROUTINES FOR INTERSECTIONS
 # Requires @permutations

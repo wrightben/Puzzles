@@ -19,8 +19,8 @@ require Exporter;
 use Data::Dumper;
 
 our @ISA = qw( Exporter );
-our @EXPORT = qw( ); # Export by default
-our @EXPORT_OK = qw( ); # Export on request
+our @EXPORT = qw( ); # Export by default ( adds to global namespace )
+our @EXPORT_OK = qw( ); # Export on request ( ? )
 
 
 
