@@ -3,7 +3,7 @@ This will solve Sudoku.com puzzles, excluding the expert ones, which seem to req
 
 
 ```
-./solver.pl  > ~/Desktop/Solver-Output.txt 
+./solver.pl  > ~/Desktop/solution.txt 
 ```
 
 
@@ -12,7 +12,7 @@ This will solve Sudoku.com puzzles, excluding the expert ones, which seem to req
 The file **permutations.txt** is the 9!-long list of permutations for 123456789, and **solver.pl** requires it to solve a puzzle.
 
 ```
-$time ./solver.pl  > ~/Desktop/Solver-Output.txt 
+$time ./solver.pl  > ~/Desktop/solution.txt 
 
 real	0m4.322s
 ```
@@ -35,7 +35,7 @@ Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste t
 # Glitch Warning: Missing .?
 ```
 
-#### Solver-Output.txt
+#### solution.txt
 - The puzzle in .tsv with the possible numbers for each cell.
 - The regular expressions and permutations available for each box.
 
