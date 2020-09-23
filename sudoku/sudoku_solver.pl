@@ -125,7 +125,7 @@ $maxIterations	= 25;
 $iteration	= 1;
 $file		= './permutations/permutations.txt';
 @file_list	= split /\n/,`cat "${file}"`;
-@cells = qw( # PUZZLE TSV
+@cells = qw(
 .	.	4	.	.	6	.	.	1
 .	2	.	9	.	7	.	.	.
 .	.	.	.	.	3	.	.	5
