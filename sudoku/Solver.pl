@@ -105,6 +105,7 @@ $maxIterations	= 25;
 $iteration	= 1;
 $file		= './permutations/permutations.txt';
 @file_list	= split /\n/,`cat "${file}"`;
+
 @cells = qw(
 .	.	4	.	.	6	.	.	1
 .	2	.	9	.	7	.	.	.
@@ -170,7 +171,6 @@ sub solvePuzzle {
 	&saveState;
 
 }
-
 
 # END
 
@@ -245,7 +245,6 @@ sub getColumnSummary {
 	return \@charPercent; # Ref (Scalar)
 }
 
-
 sub getPermutations {
 	
 	foreach $i ( 0 .. $#regexes ) {
@@ -281,33 +280,6 @@ sub getKnownCount {
 	my @unknowns = ($puzzle =~ /\.|\d\d+/g);
 	
 	return 81 - (scalar @unknowns);
-}
-
-sub checkConform {
-
-	# For a row, col, or box ... 
-	# Returns: [sum of knowns, list of unknowns]
-
-	@items = &getIndex(shift @_); # expects zero-based index: Row 7 is Index 6.
-	
-	my $sum = 0;
-	my @need = (1,2,3,4,5,6,7,8,9);
-	
-	foreach $item (@items) {
-		my $value = $cells[$item -1];
-		if ( ($value =~ /\d/) && ($value < 10) ) {
-			$need[$value -1] = undef;
-			$sum += $value;
-		}
-	}
-
-	my @need = grep { $_ } @need;
-	
-	# Perl in a nutshell ... 
-# 	return ($sum, @need); # Return a list (separate vars, all at same level); Stores in an array
-# 	return [$sum, @need]; # Return a scalar ref to array, all at same level
-	return [$sum, \@need]; # Return a scalar ref to array [ int, [] ] 
-	
 }
 
 sub getIndex {
@@ -389,8 +361,6 @@ sub setRequiredValues {
 	}
 
 }
-
-
 
 sub setColumnSummaries {
 
@@ -483,6 +453,33 @@ sub setColumnSummary {
 
 sub saveState {
 	push @state, join "\t", @cells; # TSV
+}
+
+sub checkConform {
+
+	# For a row, col, or box ... 
+	# Returns: [sum of knowns, list of unknowns]
+
+	@items = &getIndex(shift @_); # expects zero-based index: Row 7 is Index 6.
+	
+	my $sum = 0;
+	my @need = (1,2,3,4,5,6,7,8,9);
+	
+	foreach $item (@items) {
+		my $value = $cells[$item -1];
+		if ( ($value =~ /\d/) && ($value < 10) ) {
+			$need[$value -1] = undef;
+			$sum += $value;
+		}
+	}
+
+	my @need = grep { $_ } @need;
+	
+	# Perl in a nutshell ... 
+# 	return ($sum, @need); # Return a list (separate vars, all at same level); Stores in an array
+# 	return [$sum, @need]; # Return a scalar ref to array, all at same level
+	return [$sum, \@need]; # Return a scalar ref to array [ int, [] ] 
+	
 }
 
 sub outputRegexes {

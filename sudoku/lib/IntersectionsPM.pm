@@ -6,6 +6,8 @@ package IntersectionsPM;
 #	package WrightPM;	(in lib/WrightPM.pm)
 #	use lib::WrightPM;	(in SomeOtherFile.pl)
 
+# GLITCH Warning: Can't find module? Try: $perl file.pl instead of $./file.pl
+
 # EXPORT Notes
 # Subroutines can be called by MAIN (not this package) without being @EXPORT or @EXPORT_OK by using the qualified namespace: &{WrightPM::moduleTest};
 
@@ -22,6 +24,7 @@ our @ISA = qw( Exporter );
 our @EXPORT = qw( ); # Export by default ( adds to global namespace )
 our @EXPORT_OK = qw( ); # Export on request ( ? )
 
+my ($package, $filename, $line) = caller;
 
 
 # BEGIN MODULE
@@ -137,7 +140,9 @@ $boxCol3 = $boxSegments[5];
 
 
 # TESTING
-# &setIntersections;
+if ( ! $package ) {
+	&setIntersections;
+}
 
 
 
@@ -230,8 +235,7 @@ sub setIntersections {
 	}
 	
 	# Set the global | pseudo-global variable
-	my ($package, $filename, $line) = caller;
-	( @{main::permutations} = @permutations ) if ( $package == "main" );
+	@{ "${package}::permutations" } = @permutations;
 
 	return @permutations;
 
@@ -286,7 +290,9 @@ sub setIntersection {
 	
 	if ( ( $scal1 != $scal1f ) || ( $scal2 != $scal2f ) ) {
 		print "\nFiltered intersection $no; ( $scal1, $scal1f ), ( $scal2, $scal2f )\n";
-		$update = 1;
+
+		${ "${package}::update" } = 1;
+		
 	}
 	
 	

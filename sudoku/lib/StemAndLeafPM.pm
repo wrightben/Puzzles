@@ -24,7 +24,7 @@ our @ISA = qw( Exporter );
 our @EXPORT = qw( ); # Export by default ( adds to global namespace )
 our @EXPORT_OK = qw( ); # Export on request ( ? )
 
-
+my ($package, $filename, $line) = caller;
 
 
 # BEGIN MODULE

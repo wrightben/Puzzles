@@ -6,6 +6,8 @@ package RegexPM;
 #	package WrightPM;	(in lib/WrightPM.pm)
 #	use lib::WrightPM;	(in SomeOtherFile.pl)
 
+# GLITCH Warning: Can't find module? Try: $perl file.pl instead of $./file.pl
+
 # EXPORT Notes
 # Subroutines can be called by MAIN (not this package) without being @EXPORT or @EXPORT_OK by using the qualified namespace: &{WrightPM::moduleTest};
 
@@ -22,6 +24,7 @@ our @ISA = qw( Exporter );
 our @EXPORT = qw( ); # Export by default ( adds to global namespace )
 our @EXPORT_OK = qw( ); # Export on request ( ? )
 
+my ($package, $filename, $line) = caller;
 
 
 # BEGIN MODULE
@@ -87,8 +90,10 @@ our @EXPORT_OK = qw( ); # Export on request ( ? )
 @regexes;
 
 # TESTING
-# @regexes = &setRegexes;
-# print Dumper \@regexes;
+if ( ! $package ) {	
+	@regexes = &setRegexes;
+	print Dumper \@regexes;
+};
 
 
 
@@ -106,8 +111,7 @@ sub setRegexes {
 	foreach my $i ( 0 .. 26 ) {	push @reg, getRegex( getIndex($i) );	}
 	
 	# Set the global | pseudo-global variable
-	my ($package, $filename, $line) = caller;
-	( @{main::regexes} = @reg ) if ( $package == "main" );
+	@{ "${package}::regexes" } = @reg;
 	
 	return @reg;
 
