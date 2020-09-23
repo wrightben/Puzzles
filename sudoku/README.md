@@ -18,8 +18,8 @@ real	0m4.322s
 ```
 
 
-#### Numbers to CSV.numbers
-Use *Numbers to CSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **sudoku_solver.pl**. If the solver gets "stuck" and requires a guess, just replace a dot with the specific number. It's not necessary to replace the whole puzzle with the intermediate regex values.
+#### Numbers to TSV.numbers
+Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **sudoku_solver.pl**. If the solver gets "stuck" and requires a guess, just replace a dot with the specific number. It's not necessary to replace the whole puzzle with the intermediate regex values.
 
 ```
 .	.	4	.	.	6	.	.	1
@@ -63,7 +63,7 @@ s/([\d])([\d])([\d])([\d])([\d])([\d])([\d])([\d])([\d]);[\t]?/\1\t\2\t\3\n\4\t\
 
 #### Calculating Permutations Manually
 
-The **./permutations** folder includes **regex_builder.pl** and **unique_filter.pl**, which print a list of the available permutations for any row, col, or box copied-pasted from the Numbers file. It's a manual operation, which requires a copy-paste from *Numbers to CSV.numbers* into **regex_builder.pl**.
+The **./permutations** folder includes **regex_builder.pl** and **unique_filter.pl**, which print a list of the available permutations for any row, col, or box copied-pasted from the Numbers file. It's a manual operation, which requires a copy-paste from *Numbers to TSV.numbers* into **regex_builder.pl**.
 
 ```
 cat permutations.txt | grep -e "$(./permutations/regex_builder.pl)" | ./permutations/unique_filter.pl
