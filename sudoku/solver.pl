@@ -2,7 +2,7 @@
 use Data::Dumper;
 use lib::RegexPM;
 use lib::IntersectionsPM;
-use lib::StemAndLeafPM;
+use lib::StemLeafPM;
 
 # SECTION: GLOBAL VARIABLES
 # Hint: Use Excel
@@ -126,7 +126,7 @@ $file		= './permutations/permutations.txt';
 
 # Log
 print ("\n" x 2); &outputPermutations(0);	
-&{StemAndLeafPM::getRegexStemLeaf}(\@cells);
+&{StemLeafPM::doStemLeaf}(\@cells);
 
 
 sub iterate {
@@ -557,8 +557,11 @@ sub outputPermutations {
 		
 	}
 	
-	print( ("\n" x 2), "Total Permutations: $total_permutations" );
-	print ("\n" x 1);
+	print( 
+		("\n" x 2),
+		"Total Permutations: $total_permutations",
+		("\n" x 2)
+	);
 
 }
 
