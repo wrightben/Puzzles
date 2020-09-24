@@ -203,7 +203,7 @@ sub getPossible {
 	my @possible = (1,2,3,4,5,6,7,8,9);
 
 	# Iterate over the row, col, and box for this cellIndex
-	foreach my $num ( 	( getIndex($rowIndex), getIndex($colIndex), getIndex($boxIndex) )	) {  # $num is a cellIndex from the list, not zero-based
+	foreach my $num ((	getIndex($rowIndex), getIndex($colIndex), getIndex($boxIndex)	)) {  # $num is a cellIndex from the list, not zero-based
 	
 		$value = $cells[$num -1];
 		if ( ($value =~ /\d/) && ($value < 10) ) { $possible[$value - 1] = undef; }
@@ -367,7 +367,7 @@ sub setColumnSummaries {
 	foreach my $i ( 0 .. 26 ) {
 		&setColumnSummary( $i, &getColumnSummary( @{$permutations[$i]} ), $indicies[$i], scalar @{$permutations[$i]} );	# WRITES to @Cells
 	}
-	
+
 }
 
 sub setColumnSummary {
@@ -461,10 +461,10 @@ sub checkConform {
 	# Returns: [sum of knowns, list of unknowns]
 
 	@items = &getIndex(shift @_); # expects zero-based index: Row 7 is Index 6.
-	
+
 	my $sum = 0;
 	my @need = (1,2,3,4,5,6,7,8,9);
-	
+
 	foreach $item (@items) {
 		my $value = $cells[$item -1];
 		if ( ($value =~ /\d/) && ($value < 10) ) {
@@ -474,12 +474,12 @@ sub checkConform {
 	}
 
 	my @need = grep { $_ } @need;
-	
+
 	# Perl in a nutshell ... 
 # 	return ($sum, @need); # Return a list (separate vars, all at same level); Stores in an array
 # 	return [$sum, @need]; # Return a scalar ref to array, all at same level
 	return [$sum, \@need]; # Return a scalar ref to array [ int, [] ] 
-	
+
 }
 
 sub outputRegexes {
