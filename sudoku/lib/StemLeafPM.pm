@@ -52,7 +52,7 @@ my ($package, $filename, $line) = caller;
 
 # "Real" Global with "Dummy" data
 @cells = qw( 
-897	3	4	5	28	6	7	29	1
+89	3	4	5	28	6	7	29	1
 1568	2	568	9	148	7	48	346	34
 1689	16	7	148	1248	3	489	2469	5
 2	4	158	18	9	158	3	7	6
@@ -243,6 +243,7 @@ sub outputStemLeafDataByBox {
 	
 	}
 
+	print ("\n" x 1);
 	return 1;
 	
 }
