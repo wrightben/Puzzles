@@ -1,5 +1,6 @@
 #!/usr/bin/perl5.28
 use Data::Dumper;
+use lib::CellsPM;
 use lib::RegexPM;
 use lib::IntersectionsPM;
 use lib::StemLeafPM;
@@ -524,7 +525,7 @@ sub outputPermutations {
 
 		print(
 			("\n" x 1),
-			"$i: [\t// $labels[$i] ("  .  ( scalar @{$permutations[$i]} )  .  ") - [@{$conform}[0], "  .  (( join "", @{@{$conform}[1]} ) || "-")  .  "]\n\t",
+			"$i: [\t// $labels[$i] ("  ,  ( scalar @{$permutations[$i]} )  ,  ") - [@{$conform}[0], "  ,  (( join "", @{@{$conform}[1]} ) || "-")  ,  "]\n\t",
 			( join ", ", @{$permutations[$i]} ),
 			("\n" x 1),
 			"]", 
