@@ -21,7 +21,13 @@ require Exporter;
 use Data::Dumper;
 
 our @ISA = qw( Exporter );
-our @EXPORT = qw( getIndex ); # Export by default ( adds to global namespace )
+our @EXPORT = qw( 
+	getIndex
+	getRCBIndicies
+	getCellValue
+	setCellValue
+	cellsTSV
+); # Export by default ( adds to global namespace )
 our @EXPORT_OK = qw( ); # Export on request ( ? )
 
 my ($package, $filename, $line) = caller;
@@ -36,6 +42,7 @@ my ($package, $filename, $line) = caller;
 # It lists which boxes the cell indexes correspond to for each digit.
 
 # Globals
+# Hint: Use Excel
 
 #	CELL INDICIES
 # 		 0	 1	 2			 3	 4	 5			 6	 7	 8
@@ -121,7 +128,12 @@ my ($package, $filename, $line) = caller;
 
 # TESTING
 if ( ! $package ) {
-	print join ", ", &getIndex(3);
+# 	print join ", ", &getIndex(3);
+# 	print ("\n" x 2);
+# 	print join ", ", &getRCBIndicies(80);
+# 	print ("\n" x 2);
+# 	print setCellValue(1,57);
+# 	print &cellsTSV;
 }
 
 
@@ -131,9 +143,28 @@ if ( ! $package ) {
 
 
 # Return the array of cell indexes @indicies[$index];
+sub getRCBIndicies {
+	my $index = shift @_;
+	return @{ $indiciesByCellIndex[$index] };
+}
+
 sub getIndex {
 	my $index = shift @_;
 	return @{$indicies[$index]}; # Return a list (separate vars, all at same level); Stores in array.
+}
+
+sub getCellValue {
+	my $index = shift @_;
+	return $cells[$index];
+}
+
+sub setCellValue {
+	my ( $ref0, $ref1 ) = @_;
+	return $cells[$ref0] = $ref1;
+}
+
+sub cellsTSV {
+	return join "\t", @cells;
 }
 
 

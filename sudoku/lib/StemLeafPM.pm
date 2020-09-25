@@ -36,18 +36,18 @@ my ($package, $filename, $line) = caller;
 # It lists which boxes the cell indexes correspond to for each digit.
 
 # Globals
-@indexToBox = (	
-	1,1,1, 2,2,2, 3,3,3,
-	1,1,1, 2,2,2, 3,3,3,
-	1,1,1, 2,2,2, 3,3,3,
+@indexToBox = qw(
+	1 1 1  2 2 2  3 3 3 
+	1 1 1  2 2 2  3 3 3 
+	1 1 1  2 2 2  3 3 3 
 
-	4,4,4, 5,5,5, 6,6,6,
-	4,4,4, 5,5,5, 6,6,6,
-	4,4,4, 5,5,5, 6,6,6,
+	4 4 4  5 5 5  6 6 6 
+	4 4 4  5 5 5  6 6 6 
+	4 4 4  5 5 5  6 6 6 
 
-	7,7,7, 8,8,8, 9,9,9,
-	7,7,7, 8,8,8, 9,9,9,
-	7,7,7, 8,8,8, 9,9,9
+	7 7 7  8 8 8  9 9 9 
+	7 7 7  8 8 8  9 9 9 
+	7 7 7  8 8 8  9 9 9
 );
 
 # "Real" Global with "Dummy" data
