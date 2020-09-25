@@ -516,7 +516,7 @@ sub outputPermutations {
 	
 	my $total_permutations = 0;
 	
-	print( ("\n" x 1), "outputPermutations label (count) - [sum, needed]\n" );
+	print( ("\n" x 1), 'outputPermutations label (count) - [sum, needed]', ("\n" x 1) );
 	
 	foreach my $i ( 0 .. 26 ) { # 27 Permutation Lists
 		
@@ -559,7 +559,7 @@ sub outputPermutations {
 	
 	print( 
 		("\n" x 2),
-		"Total Permutations: $total_permutations",
+		'Total Permutations: ', $total_permutations,
 		("\n" x 2)
 	);
 
@@ -582,8 +582,13 @@ sub outputPuzzleTSV {
 }
 
 sub outputPuzzleHeader {
-	print ("\n" x 2);
-	print ( ("=" x 50), "\n" );
-	print "Puzzle Iteration ($iteration)\n";
-	print ( ("=" x 50), "\n" );
+	print( 
+		("\n" x 2),
+		('=' x 50),
+		("\n" x 1),		
+		'Puzzle Iteration (', $iteration, ')',
+		("\n" x 1),
+		('=' x 50),
+		("\n" x 1)
+	);
 }

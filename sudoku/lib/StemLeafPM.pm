@@ -98,7 +98,9 @@ if ( ! $package ) {
 # 	&outputStemLeafDataByBox(&getStemLeafDataByBox);
 # 	&outputStemLeafDataByBox(&getStemLeafDataByBox( [ [ 9, 13, 18] ] ));
 
-	&doStemLeaf( \@cells );
+# 	&doStemLeaf( \@cells );
+
+	&digitGuess;
 	
 }
 
@@ -217,7 +219,7 @@ sub outputStemLeafDataByBox {
 	my @data = @{$ref0};
 	
 	print( 
-		"Outputs [ The digit [1-9] => [ Box [1-9] => [ indexes ] ... ",
+		"Outputs [ Digit # => [ Box # => [ Cell #s ] ... ",
 		("\n" x 1),		
 		"digit-box [indexes]",
 		("\n" x 1)
@@ -248,6 +250,7 @@ sub outputStemLeafDataByBox {
 	
 }
 
+
 sub doStemLeaf {
 
 	# @cells - Global || Local
@@ -264,6 +267,25 @@ sub doStemLeaf {
 	return 1;
 	
 }
+
+
+# For any 1 digit
+# Guess per box
+# Eliminate affected cells
+# Repeat until all needed digits are paired with cell index
+sub digitGuess {
+
+	my @returnValues0 = &getStemLeafData;
+	my @digitIndexes = @{$returnValues0[0]}[0];
+	my $needed = @{$returnValues0[2]}[0];
+	my @digitIndexesByBox = &getStemLeafDataByBox( [ @digitIndexes ] );
+
+	print $needed;
+	print Dumper @digitIndexes;
+	print Dumper @digitIndexesByBox;
+
+}
+
 
 # END
 
