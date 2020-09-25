@@ -1,6 +1,6 @@
 package StemLeafPM; 
 # ^ This line creates the namespace for the symbols (subroutines, etc) in this file; Delete it to include all symbols in MAIN (global) namespace
-# This module's "package" line ( package WrightPM ) does not have to match the "use" line ( use lib::WrightPM ) added to files that need this module.
+# This module's "package" line ( package lib::WrightPM ) must match the "use" line ( use lib::WrightPM ) added to files that need this module if @Export is to work properly.
 # The package line is the namespace; The use line is the path to the module. 
 # Example:
 #	package WrightPM;	(in lib/WrightPM.pm)
