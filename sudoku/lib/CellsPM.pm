@@ -21,7 +21,7 @@ require Exporter;
 use Data::Dumper;
 
 our @ISA = qw( Exporter );
-our @EXPORT = qw( &getIndex ); # Export by default ( adds to global namespace )
+our @EXPORT = qw( getIndex ); # Export by default ( adds to global namespace )
 our @EXPORT_OK = qw( ); # Export on request ( ? )
 
 my ($package, $filename, $line) = caller;
@@ -121,22 +121,18 @@ my ($package, $filename, $line) = caller;
 
 # TESTING
 if ( ! $package ) {
-	
+	print join ", ", &getIndex(3);
 }
 
 
 # SUBROUTINES FOR RegexStemLeaf
 # Requires @cells
-&getIndex(3);
 
 
+
+# Return the array of cell indexes @indicies[$index];
 sub getIndex {
-
-	
-	# Perl in a nutshell ... 
 	my $index = shift @_;
-	
-		print "Get Index! Yay! $index";
 	return @{$indicies[$index]}; # Return a list (separate vars, all at same level); Stores in array.
 }
 

@@ -1,9 +1,11 @@
 #!/usr/bin/perl5.28
 use Data::Dumper;
-use lib::CellsPM;
-use lib::RegexPM;
-use lib::IntersectionsPM;
-use lib::StemLeafPM;
+
+use lib './lib';
+use CellsPM; # qw ( getIndex )
+use RegexPM qw( setRegexes );
+use IntersectionsPM qw( setIntersections );
+use StemLeafPM qw( doStemLeaf );
 
 # SECTION: GLOBAL VARIABLES
 # Hint: Use Excel
@@ -127,7 +129,7 @@ $file		= './permutations/permutations.txt';
 
 # Log
 print ("\n" x 2); &outputPermutations(0);	
-&{StemLeafPM::doStemLeaf}(\@cells);
+&doStemLeaf(\@cells);
 
 
 sub iterate {
@@ -155,14 +157,14 @@ sub solvePuzzle {
 
 	# Puzzle
 	&setRequiredValues;	# WRITES to @Cells
-	&{RegexPM::setRegexes}(\@cells);
+	&setRegexes(\@cells);
 	&getPermutations;
 	
 	# Log	
 	print ("\n" x 2); &outputRegexes;
 	
 	# Puzzle
-	&{IntersectionsPM::setIntersections}(\@permutations);	# WRITES to @permutations
+	&setIntersections(\@permutations);	# WRITES to @permutations
 	&setColumnSummaries;	# WRITES to @Cells
 
 	# Log (TSV)
@@ -281,12 +283,6 @@ sub getKnownCount {
 	my @unknowns = ($puzzle =~ /\.|\d\d+/g);
 	
 	return 81 - (scalar @unknowns);
-}
-
-sub getIndex {
-	# Perl in a nutshell ... 
-	my $index = shift @_;
-	return @{$indicies[$index]}; # Return a list (separate vars, all at same level); Stores in array.
 }
 
 sub setDotCellValues {
@@ -461,7 +457,7 @@ sub checkConform {
 	# For a row, col, or box ... 
 	# Returns: [sum of knowns, list of unknowns]
 
-	@items = &getIndex(shift @_); # expects zero-based index: Row 7 is Index 6.
+	@items = getIndex(shift @_); # expects zero-based index: Row 7 is Index 6.
 
 	my $sum = 0;
 	my @need = (1,2,3,4,5,6,7,8,9);
