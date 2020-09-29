@@ -1,5 +1,5 @@
 # Sudoku
-solver.pl fully solves the puzzles in common books, like those published by PennyPress, etc. Of course, those books are published with solutions.
+solver.pl fully solves traditional sudoku puzzles in common books, like those published by PennyPress, etc.
 
 Google search suggests several sudoku sites to me; They're nearly worthless. Their puzzles lack sufficient clues for full solutions, at least without guesses which would be nearly impossible for ordinary people. Still solver.pl will partially solve those puzzles, and provide guesses (box permutations) that fully solve them if any solutions exist.
 
