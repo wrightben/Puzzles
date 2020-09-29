@@ -1,5 +1,7 @@
 # Sudoku
-Google search suggests several sudoku sites to me. They're awful. They have multiple solutions, or lack sufficient clues to solve the problem without guessing, which would be nearly impossible for a human. Those websites are basically worthless; I'm not sure why Google suggests them. My solution partially solves them, and provides suggestions for guesses that fully solve the puzzles if a solution exists. My solution fully solves the puzzles in common books, like those created by PennyPress, etc.
+solver.pl fully solves the puzzles in common books, like those published by PennyPress, etc. Of course, those books are published with solutions.
+
+Google search suggests several sudoku sites to me; They're nearly worthless. Their puzzles lack sufficient clues for full solutions, at least without guesses which would be nearly impossible for ordinary people. Still solver.pl will partially solve those puzzles, and provide guesses (box permutations) that fully solve them if any solutions exist.
 
 
 ```
