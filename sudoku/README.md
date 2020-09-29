@@ -1,5 +1,5 @@
 # Sudoku
-This will solve Sudoku.com puzzles, excluding the expert ones, which seem to require some guessing and/or have multiple solutions. This code can easily be modified to create and verify puzzles, too.
+Google search suggests several sudoku sites to me. They're awful. They have multiple solutions, or lack sufficient clues to solve the problem without guessing, which would be nearly impossible for a human. Those websites are basically worthless; I'm not sure why Google suggests them. My solution partially solves them, and provides suggestions for guesses that fully solve the puzzles if a solution exists. My solution fully solves the puzzles in common books, like those created by PennyPress, etc.
 
 
 ```
