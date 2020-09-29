@@ -42,7 +42,7 @@ Hint: For those nearly worthless puzzles, if the solver gets "stuck" and require
 - The puzzle in .tsv with the possible numbers for each cell.
 - The regular expressions and permutations available for each box.
 
-Modify the permutations for copy-paste into the .numbers file:
+Modify the permutations for copy-paste into the .numbers file (regex below):
 ```
 # Before
 123456789;
