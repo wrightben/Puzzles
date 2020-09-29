@@ -64,7 +64,7 @@ s/([\d])([\d])([\d])([\d])([\d])([\d])([\d])([\d])([\d]);[\t]?/\1\t\2\t\3\n\4\t\
 * Intersections of permutations between row-col, or box-col, filter permutations that are not connectors. The intersections are implicitly box-row-col.
 * (Not implemented) State + Guessing: Substituting permutations in breadth-first may force a solution to the puzzle when permutations have been reduced
 
-#### Calculating Permutations Manually
+#### Calculating permutations manually
 
 The **./permutations** folder includes **regex_builder.pl** and **unique_filter.pl**, which print a list of the available permutations for any row, col, or box copied-pasted from the Numbers file. It's a manual operation, which requires a copy-paste from *Numbers to TSV.numbers* into **regex_builder.pl**.
 
