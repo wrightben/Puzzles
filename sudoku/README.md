@@ -21,7 +21,7 @@ real	0m4.322s
 
 
 #### Numbers to TSV.numbers
-Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **solver.pl**. If the solver gets "stuck" and requires a guess, just replace a dot with the specific number. It's not necessary to replace the whole puzzle with the intermediate regex values.
+Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **solver.pl**.
 
 ```
 .	.	4	.	.	6	.	.	1
@@ -36,6 +36,7 @@ Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste t
 
 # Glitch Warning: Missing .?
 ```
+Hint: For those nearly worthless puzzles, if the solver gets "stuck" and requires a guess, just replace a dot with the specific number. It's not necessary to replace the whole puzzle with the intermediate regex values.
 
 #### solution.txt
 - The puzzle in .tsv with the possible numbers for each cell.
