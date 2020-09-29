@@ -62,7 +62,7 @@ s/([\d])([\d])([\d])([\d])([\d])([\d])([\d])([\d])([\d]);[\t]?/\1\t\2\t\3\n\4\t\
 * Unique Required: A particular digit appears as part of just 1 regex. That cell must equal the digit.
 * Column Summary: A particular digit always appears in a column of permutations. That column must equal that digit.
 * Intersections of permutations between row-col, or box-col, filter permutations that are not connectors. The intersections are implicitly box-row-col.
-* State + Guessing: Substituting permutations in breadth-first may force a solution to the puzzle when permutations have been reduced
+* (Not implemented) State + Guessing: Substituting permutations in breadth-first may force a solution to the puzzle when permutations have been reduced
 
 #### Calculating Permutations Manually
 
