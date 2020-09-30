@@ -2,7 +2,7 @@
 
 1-based boxes [1..9]
 
-* From @file_list, select int( rand[0..362880] )
+* From @file_list, select int( rand[0..362_881] )
 * Fill Box 1
 * setCellDotValues
 * Create regex for Box 2
