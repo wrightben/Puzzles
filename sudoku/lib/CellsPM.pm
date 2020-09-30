@@ -22,6 +22,7 @@ use Data::Dumper;
 
 our @ISA = qw( Exporter );
 our @EXPORT = qw( 
+	@cells
 	getIndex
 	getRCBIndicies
 	getCellValue
