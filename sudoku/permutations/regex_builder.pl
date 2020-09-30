@@ -1,12 +1,11 @@
 #!/usr/bin/perl
 
 
-# Copy-Paste from Excel
-# cat 1\ -\ permutations.txt | grep -e "$(./permutations/regex_builder.pl)"
-
 @list = qw(
 
-2568	2568	7	9	1	345	23458	345	2458
+2356	1346	1245
+2689	1679	1278
+3589	3479	4578
 
 );
 
