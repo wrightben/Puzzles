@@ -161,7 +161,7 @@ sub getStemLeafDataByBox {
 		push @stemLeafDataByBox, [ [],[],[],[],[],[],[],[],[] ];
 		my @array = @{ $stemLeafData[$i] };
 		foreach $cellIndex ( @array ) {
-			push @{ $stemLeafDataByBox[$i] } [ $indexToBox[ $cellIndex ] -1 ], $cellIndex; 
+			push @{ @{ $stemLeafDataByBox[$i] } [ $indexToBox[ $cellIndex ] -1 ] }, $cellIndex; 
 		}
 	}
 	
