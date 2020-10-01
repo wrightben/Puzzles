@@ -1,4 +1,4 @@
-#!/usr/bin/perl5.28
+#!/usr/bin/perl
 use Data::Dumper;
 
 use lib './lib';
