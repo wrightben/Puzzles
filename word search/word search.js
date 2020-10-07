@@ -126,7 +126,7 @@ var getNDiagLetters = function( pos ) {
 
 
 // PREPARE THE PUZZLE
-// Find words in Excel using sed -e '/\s/\t/'
+// Create CSV with sed -e '/\s/\t/'
 var	root,
 	letters = "\
 f i b b g n r x b x z f u c i o e p f l c a b p k \
