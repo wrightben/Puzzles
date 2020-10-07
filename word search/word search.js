@@ -49,6 +49,7 @@ var find = function( word ) {
 
 	var _ci = {};
 	for (var i = 0; i < index[w].length; i ++) {
+		// Row 12, Col 8 = Pos 282 = (11·25)-1+8; There are 11 rows of 25 (not 24, despite row 1 being zero-based)
 		_ci[index[w][i] + " (" + getRowCol(index[w][i])[0] + "," + getRowCol(index[w][i])[1]+")"] = findWordAtPosition( index[w][i], word);
 	}
 	
@@ -58,15 +59,41 @@ var find = function( word ) {
 
 
 var getRowCol = function( pos ) {
+	/*
+		// Alternatively: 
+		var getRowCol = [
+			[0,0], [0,1] ... for row 0, col x
+			[1,0], [1,1] ... for row 1, col x
+			... And so on
+		];
+		return getRowCol[pos];	
+	*/
 	var	col = ( pos % root ) + 1,
 		row = Math.floor(( pos / root )) + 1;	
 	
 	return [row, col];
 }
 
+// getIndex is probably never used
 var getIndex = function( row, col ) {
 	return ( ( row - 1) * root ) + ( col - 1 );
 }
+
+/*
+	METHODS FOR ROW, COL, and DIAGONALS
+	
+	As I consider the many ways I can think to implement the search, I'm 
+	content with this compromise between efficiency and a sense of easy-
+	to-read simplicity. I'm happy when I can easily tell what the code is
+	doing by following a few subroutines.
+	
+	25 + 25 + (25 + 24) + (25 + 24) = 148 rows, cols, and diagonals.
+	I like the idea of using tables of indexes for the rows, cols, and 
+	diagonals. I also like the idea of only selecting the rows, cols, and
+	diagonals containing first letters of the words I want to find. 
+	
+	Maybe it's worthwhile to cache them for words with the same first-letter.
+*/
 
 var getRowLetters = function( row ) {
 	return letters.slice( (row - 1) * root, ( (row -1) * root) + root ).join( "" );;
