@@ -22,7 +22,7 @@ real	0m4.322s
 
 
 #### Numbers to TSV.numbers
-Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste to **solver.pl**.
+Use *Numbers to TSV.numbers* to "Copy Puzzle", then copy-paste to **solver.pl**.
 
 ```
 .	.	4	.	.	6	.	.	1
