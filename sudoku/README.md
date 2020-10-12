@@ -46,7 +46,7 @@ Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste t
 #### How the program solves a puzzle
 * Unique Required: A particular digit appears as part of just 1 regex. That cell must equal the digit.
 * Column Summary: A particular digit always appears in a column of permutations. That column must equal that digit.
-* Intersections of permutations between row-col, or box-col, filter permutations that are not connectors. The intersections are implicitly box-row-col.
+* Intersections of permutations (box-row and box-col) filter extraneous permutations
 * (Not implemented) State + Guessing: Substituting permutations in breadth-first may force a solution to the puzzle when permutations have been reduced
 
 ## Utilities
