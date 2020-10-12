@@ -49,7 +49,7 @@ Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste t
 * Intersections of permutations between row-col, or box-col, filter permutations that are not connectors. The intersections are implicitly box-row-col.
 * (Not implemented) State + Guessing: Substituting permutations in breadth-first may force a solution to the puzzle when permutations have been reduced
 
-------
+## Utilities
 
 #### Calculating a list of permutations manually (for any 1 box, row, or col)
 
