@@ -49,6 +49,8 @@ Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste t
 * Intersections of permutations between row-col, or box-col, filter permutations that are not connectors. The intersections are implicitly box-row-col.
 * (Not implemented) State + Guessing: Substituting permutations in breadth-first may force a solution to the puzzle when permutations have been reduced
 
+------
+
 #### Calculating a list of permutations manually (for any 1 box, row, or col)
 
 The **./permutations** folder includes **regex_builder.pl** and **unique_filter.pl**, which print a list of the available permutations for any row, col, or box copied-pasted from the Numbers file. It's a manual operation, which requires a copy-paste from *Numbers to TSV.numbers* into **regex_builder.pl**.
