@@ -3,7 +3,7 @@ solver.pl fully solves traditional sudoku puzzles in common books, like those pu
 
 Google search suggests several sudoku sites to me; They're nearly worthless. Their puzzles lack sufficient clues for full solutions, at least without guesses which would be nearly impossible for ordinary people. Still, solver.pl will partially solve those puzzles and provide guesses (box permutations) that fully solve them if any solutions exist.
 
-Tip: If the solver gets "stuck" and requires a guess, just replace a dot with a corresponding number from one of the suggested box permutations.
+Tip: If the solver gets "stuck" and requires a guess, just replace a dot with a corresponding digit from one of the suggested box permutations.
 
 ```
 ./solver.pl  > ~/Desktop/solution.txt 
