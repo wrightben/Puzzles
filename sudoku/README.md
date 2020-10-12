@@ -41,7 +41,7 @@ Use *Numbers to TSV.numbers* to "Copy Puzzle", then copy-paste to **solver.pl**.
 #### solution.txt
 - The puzzle in .tsv with the possible numbers for each cell.
 - The regular expressions and permutations available for each box.
-- The steps .sovler.pl takes toward finding a solution
+- The steps .solver.pl takes toward finding a solution
 
 #### How the program solves a puzzle
 * Unique Required: A particular digit appears as part of just 1 regex. That cell must equal the digit.
