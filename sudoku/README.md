@@ -35,7 +35,7 @@ Use *Numbers to TSV.numbers* to "Copy Puzzle" from Sudoku.com, then copy-paste t
 .	.	.	2	.	.	.	8	.
 7	.	.	6	.	.	2	.	.
 
-# Glitch Warning: Missing .?
+# Tip: Copy-paste sometimes excludes dots. Dots cause problems.
 ```
 
 #### solution.txt
