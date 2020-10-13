@@ -1,5 +1,5 @@
 # Sudoku
-solver.pl fully solves traditional sudoku puzzles in common books, like those published by PennyPress, etc. Some problems require guessing. solver.pl will *partially* solve those puzzles and provide guesses<sup>1</sup> that fully solve them if a solution exists.
+solver.pl fully solves traditional sudoku puzzles in PennyPress books. Puzzlewright Press puzzles require guessing. solver.pl will *partially* solve those puzzles and provide guesses<sup>1</sup> that fully solve them if a solution exists.
 
 <sup>1</sup> If the solver gets "stuck" and requires a guess, just replace a dot with a corresponding digit from one of the suggested box permutations.
 
