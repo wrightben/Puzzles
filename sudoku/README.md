@@ -33,7 +33,7 @@ Use *Numbers to TSV.numbers* to "Copy Puzzle", then copy-paste to **solver.pl**.
 .	.	.	2	.	.	.	8	.
 7	.	.	6	.	.	2	.	.
 
-# Tip: Copy-paste sometimes excludes dots, which then cause problems.
+# Tip: Copy-paste sometimes excludes dots which causes problems.
 ```
 
 #### solution.txt
