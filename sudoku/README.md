@@ -1,10 +1,10 @@
 # Sudoku
-solver.pl fully solves sudoku puzzles in PennyPress books. Other puzzles, like some found in Puzzlewright Press books, require guessing. solver.pl will partially solve those puzzles and provide guesses<sup>1</sup> that fully solve them if a solution exists.
-
-<sup>1</sup> If solver.pl gets "stuck" and requires a guess, just replace a dot with a corresponding digit from one of the suggested box permutations.
+solver.pl fully solves sudoku puzzles in PennyPress books. Other puzzles, like some found in Puzzlewright Press books, require guessing. solver.pl will partially solve those puzzles and provide guesses that fully solve them if a solution exists. If solver.pl gets "stuck" and requires a guess, just replace a dot with a corresponding digit from one of the suggested box permutations.
 
 ```
-./solver.pl  > ~/Desktop/solution.txt 
+$time ./solver.pl  > ~/Desktop/solution.txt 
+
+real	0m4.322s
 ```
 
 
@@ -12,11 +12,7 @@ solver.pl fully solves sudoku puzzles in PennyPress books. Other puzzles, like s
 
 The file **permutations.txt** is the 9!-long list of permutations for 123456789, and **solver.pl** requires it to solve a puzzle.
 
-```
-$time ./solver.pl  > ~/Desktop/solution.txt 
 
-real	0m4.322s
-```
 
 
 #### Numbers to TSV.numbers
