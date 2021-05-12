@@ -49,13 +49,39 @@ def down(i,w,s):
 	if puzzle[e] != w[-1]: return 0
 
 	_down = list(puzzle[x] for x in range(i,e+s,s) )
-	
 	if list(w) == _down: return 1
 	
 	return 0
 
-
-
+def right(i,w,s):
+	wl = len(w)
+	r = getRow(i,s)
+	
+	# e-tests
+	e = i + (wl - 1)
+	if r != getRow(e,s): return 0
+	if puzzle[e] != w[-1]: return 0
+	
+	_right = list(puzzle[x] for x in range(i,e+1,1) )
+	if list(w) == _right: return 1
+	
+	return 0
+	
+def left(i,w,s):
+	wl = len(w)
+	r = getRow(i,s)
+	
+	# e-tests
+	e = i - (wl - 1)
+	if r != getRow(e,s): return 0
+	if puzzle[e] != w[-1]: return 0
+	
+	_left = list(puzzle[x] for x in range(i, e-1, -1) )
+	if list(w) == _left: return 1
+	
+	print('summary', e, _left);
+	
+	return 0	
 
 # Words and Search
 
@@ -90,6 +116,8 @@ words = [ # 34
 for word in words:
 	for i in puzzleIndex[ word[0] ]:
 		print( 	word, i, 
-			up(i, word, puzzleSize),
-			down(i, word, puzzleSize)
+# 			up(i, word, puzzleSize),
+# 			down(i, word, puzzleSize),
+# 			right(i, word, puzzleSize),
+			left(i, word, puzzleSize)			
 		)
