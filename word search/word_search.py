@@ -34,8 +34,8 @@ def up(i,w,s):
 	e = i - (s * (wl - 1))
 	if e < 0: return 0
 	if puzzle[e] != w[-1]: return 0
-	_up = list(puzzle[x] for x in range(i,e-s,-s) )
 	
+	_up = list(puzzle[x] for x in range(i,e-s,-s) )
 	if list(w) == _up: return 1
 	
 	return 0
@@ -93,7 +93,6 @@ def upright(i,w,s):
 	if puzzle[e] != w[-1]: return 0
 	
 	_upright = list(puzzle[x] for x in range(i,e-ss,-ss) )
-	
 	if list(w) == _upright: return 1	
 	
 	return 0
@@ -110,7 +109,6 @@ def downright(i,w,s):
 	if puzzle[e] != w[-1]: return 0
 	
 	_upright = list(puzzle[x] for x in range(i,e+ss,ss) )
-	
 	if list(w) == _upright: return 1	
 	
 	return 0
@@ -127,7 +125,6 @@ def upleft(i,w,s):
 	if puzzle[e] != w[-1]: return 0
 	
 	_upleft = list(puzzle[x] for x in range(i,e-ss,-ss) )
-	
 	if list(w) == _upleft: return 1	
 	
 	return 0
@@ -144,7 +141,6 @@ def downleft(i,w,s):
 	if puzzle[e] != w[-1]: return 0
 	
 	_downleft = list(puzzle[x] for x in range(i,e+ss,+ss) )
-	
 	if list(w) == _downleft: return 1	
 	
 	return 0	
