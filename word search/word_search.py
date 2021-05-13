@@ -150,8 +150,8 @@ def downleft(i,w,s):
 	return 0	
 
 
-# Words and Search
 
+# WORDS and SEARCH
 words = [ # 24
 	"beautiful",
 	"bright",
