@@ -79,13 +79,80 @@ def left(i,w,s):
 	_left = list(puzzle[x] for x in range(i, e-1, -1) )
 	if list(w) == _left: return 1
 	
-	print('summary', e, _left);
+	return 0	
+
+def upright(i,w,s):
+	wl = len(w)
+	c = getCol(i,s)
+	ss = s-1
+	
+	# e-tests
+	e = i - (ss * (wl - 1))
+	if e < 0: return 0
+	if c > getCol(e,s): return 0
+	if puzzle[e] != w[-1]: return 0
+	
+	_upright = list(puzzle[x] for x in range(i,e-ss,-ss) )
+	
+	if list(w) == _upright: return 1	
+	
+	return 0
+
+def downright(i,w,s):
+	wl = len(w)
+	c = getCol(i,s)
+	ss = s+1
+	
+	# e-tests
+	e = i + (ss * (wl - 1))
+	if e > puzzleLength: return 0
+	if c > getCol(e,s): return 0
+	if puzzle[e] != w[-1]: return 0
+	
+	_upright = list(puzzle[x] for x in range(i,e+ss,ss) )
+	
+	if list(w) == _upright: return 1	
+	
+	return 0
+
+def upleft(i,w,s):
+	wl = len(w)
+	c = getCol(i,s)
+	ss = s+1
+	
+	# e-tests
+	e = i - (ss * (wl - 1))
+	if e < 0: return 0
+	if c < getCol(e,s): return 0
+	if puzzle[e] != w[-1]: return 0
+	
+	_upleft = list(puzzle[x] for x in range(i,e-ss,-ss) )
+	
+	if list(w) == _upleft: return 1	
+	
+	return 0
+	
+def downleft(i,w,s):
+	wl = len(w)
+	c = getCol(i,s)
+	ss = s-1
+	
+	# e-tests
+	e = i + (ss * (wl - 1))
+	if e >= puzzleLength: return 0
+	if c < getCol(e,s): return 0
+	if puzzle[e] != w[-1]: return 0
+	
+	_downleft = list(puzzle[x] for x in range(i,e+ss,+ss) )
+	
+	if list(w) == _downleft: return 1	
 	
 	return 0	
 
+
 # Words and Search
 
-words = [ # 34
+words = [ # 24
 	"beautiful",
 	"bright",
 	"brilliant",
@@ -115,9 +182,20 @@ words = [ # 34
 
 for word in words:
 	for i in puzzleIndex[ word[0] ]:
-		print( 	word, i, 
-# 			up(i, word, puzzleSize),
-# 			down(i, word, puzzleSize),
-# 			right(i, word, puzzleSize),
-			left(i, word, puzzleSize)			
+# 		Clockwise: 
+# 			1. up
+# 			2. up right
+# 			3. right
+# 			4. down right
+# 			5. down
+#			etc ..
+		print( 	word, i, ': ', 
+			up(i, word, puzzleSize),
+			upright(i, word, puzzleSize),
+			right(i, word, puzzleSize),
+			downright(i, word, puzzleSize),
+			down(i, word, puzzleSize),
+			downleft(i, word, puzzleSize),
+			left(i, word, puzzleSize),
+			upleft(i, word, puzzleSize)						
 		)
