@@ -182,13 +182,7 @@ words = [ # 24
 
 for word in words:
 	for i in puzzleIndex[ word[0] ]:
-# 		Clockwise: 
-# 			1. up
-# 			2. up right
-# 			3. right
-# 			4. down right
-# 			5. down
-#			etc ..
+		# Clockwise: 
 		print( 	word, i, ': ', 
 			up(i, word, puzzleSize),
 			upright(i, word, puzzleSize),
@@ -198,4 +192,4 @@ for word in words:
 			downleft(i, word, puzzleSize),
 			left(i, word, puzzleSize),
 			upleft(i, word, puzzleSize)						
-		)
+		)		
