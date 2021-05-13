@@ -76,7 +76,7 @@ def left(i,w,s):
 	if r != getRow(e,s): return 0
 	if puzzle[e] != w[-1]: return 0
 	
-	_left = list(puzzle[x] for x in range(i, e-1, -1) )
+	_left = list(puzzle[x] for x in range(i,e-1,-1) )
 	if list(w) == _left: return 1
 	
 	return 0	
