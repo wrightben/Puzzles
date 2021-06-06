@@ -1,6 +1,6 @@
 import math
 
-puzzle = "fibbgnrxbxzfucioepflcabpkrceiyxnelnwltobbxduohkgmqecmnvqaabmulmdbctkjuixhwzsnnysukrrejzeljzrmvkljcgdhuzmtgniripsnijracellfpitsycisweetrgykgyxopreyzdeowwftjucdftdleolrrzrpynehobudqwitunayronqudueteyvoflsmasxyphomacfilihulylgifbejvlttptrbegazfnvptannquzrndaqrcanmrcqtrasifpsntthtkvzdeweiaoijuhrhzobrxwbumtwhnjgpglifgwsyljsmbgroxldhvxnhldehlhhcolorfuloqtofpirskrkssqlbtolhejspaodjsvorugekaaisialidgaykmiioizzxorcfvihqvrvoweiafnubnekeliqmrxmgbwtblugwdsqrirfhdordlxacmucbkcfxolunwglierionvaeeqvjixeczvfvljunnslplrkjkalsyoaedheeiofspaakcgoloocdczmzmhvffdgicehhazyxkitxjupuqjdygtnfosjxspwzcbwfghgbywwlylevolkugxbtbcfngefyzzsupajaqvm"
+puzzle = "lacigamdadjflliihovxvzfyasmtrmyftjnrcrwxvtayikwrkvkrnciurdgulrdocnzevipakkpymyznfktlknajvmlhncoveadlkgefeylonciilsrbwlynqaqqifnmhmcwsrcfsqlbvnatkudvqktwcmyueyipxcihlyauyemmfrorlyuuyxxivgerdylrdnwbpinbreezynellygjclpfrsaosoefgllspkbzojitbpxpgcwhwogyvbpuadfiugaqisuvipsvjmuohuehrevbffxenyautszsbzpufiuszafteeltvzffxlqeyowpdqshtrnqrcvoylyyrgdfncpbsqiwgeajreuygtpghbsaflvfocjlspgaamnhappydnganwbushrtxcuorolkiapeickhzxipogrqbamiwwkkmlycxbesobhromalvgyiuszsoigpcflqnelufohpsmmhzenzgoambqztdczdyxjvfqsuygebnzuimgwbjrdbxvvjcmnyzbieijksriiqzxudslekklblgdqrxohswnbxzqfsjajfvcvcrvtnargarfqkvbmuxlegeilkuzhjlkxuelmqvwahfstarrynnlrbjjrncsyhwfieyeuyuzvacasfdiojmxldmnrkewfflumgdoyswyoicllbrhhuvcdbwkerrhnoitidnocriaelsjhxfwwdipagufflnxywyvvrteysiwvwihzuuotgtstrfhbhmchjqipvsreaxituhanweuxlrprkqucandkmtfgenjhujlikjcfhfktzfsgrjyrqzfyttzyuopbmuovnbqxyqheksamnpbbslryqpyannitojvkpmpmouzbormhbxjshelsitrkabakusamoqqna"
 puzzleAsList = list( puzzle )
 puzzleLength = len( puzzle )
 puzzleSize = int(math.sqrt( puzzleLength ))
@@ -149,30 +149,35 @@ def downleft(i,w,s):
 
 # WORDS and SEARCH
 words = [ # 24
-	"beautiful",
-	"bright",
-	"brilliant",
-	"brisk",
-	"chilly",
-	"clear",
-	"cold",
-	"colorful",
-	"cool",
-	"dew",
-	"early",
-	"extraordinary",
-	"fine",
+	"active",
+	"aircondition",
+	"barefoot",
+	"bbq",
+	"blazing",
+	"breezy",
+	"cheerful",
+	"dreamy",
+	"endless",
+	"fragrant",
 	"fresh",
-	"glorious",
-	"golden",
-	"hazy",
-	"inspiring",
+	"green",
+	"grilling",
+	"happy",
+	"humid",
+	"lakeside",
 	"lovely",
-	"soft",
-	"splendid",
-	"sunny",
+	"magical",
+	"muggy",
+	"refreshing",
+	"sizzling",
+	"starry",
+	"sunburnt",
+	"sunkissed",
 	"sweet",
-	"warm"
+	"tan",
+	"tropical",
+	"warm",
+	"youthful"
 ]
 
 
