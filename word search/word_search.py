@@ -148,7 +148,7 @@ def downleft(i,w,s):
 
 
 # WORDS and SEARCH
-words = [ # 24
+words = [ # 29
 	"active",
 	"aircondition",
 	"barefoot",
